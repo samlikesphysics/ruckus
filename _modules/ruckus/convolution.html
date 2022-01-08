@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ruckus.convolution &#8212; ruckus 0.0.1 documentation</title>
+    <title>ruckus.convolution &#8212; ruckus 0.0.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>ruckus 0.0.1 documentation</span></a></h1>
+          <span>ruckus 0.0.3 documentation</span></a></h1>
         <h2 class="heading"><span>ruckus.convolution</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -132,10 +132,12 @@
 <span class="sd">        :returns: The transformed data</span>
 <span class="sd">        :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">,</span><span class="n">allow_nd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="n">X</span>
         
-        <span class="n">convX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="n">convX</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">convX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="n">X_transformed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">convX</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="n">X_transformed</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">return</span> <span class="n">X_transformed</span></div>
@@ -150,9 +152,12 @@
 <span class="sd">        :returns: The instance itself</span>
 <span class="sd">        :rtype: :py:class:`RKHS`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">,</span><span class="n">allow_nd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">convX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="n">convX</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="n">X</span>
+
+        <span class="n">convX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">convX</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">shape_out_</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -167,7 +172,9 @@
 <span class="sd">        :returns: The transformed data</span>
 <span class="sd">        :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">,</span><span class="n">allow_nd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="n">X</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div></div>
 </pre></div>
 
