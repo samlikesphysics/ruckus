@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to ruckus’s documentation! &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/haiku.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ruckus API" href="api/modules.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="#">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>Welcome to ruckus’s documentation!</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        <a class="uplink" href="#">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api/modules.html">ruckus API</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="welcome-to-ruckus-s-documentation">
+<h1>Welcome to ruckus’s documentation!<a class="headerlink" href="#welcome-to-ruckus-s-documentation" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="ruckus-is-a-package-for-building-networks-of-reproducing-kernel-hilbert-spaces-for-machine-learning">
+<h1><code class="docutils literal notranslate"><span class="pre">ruckus</span></code> is a package for building networks of reproducing kernel Hilbert spaces for machine learning.<a class="headerlink" href="#ruckus-is-a-package-for-building-networks-of-reproducing-kernel-hilbert-spaces-for-machine-learning" title="Permalink to this headline">¶</a></h1>
+<p>Reproducing kernel Hilbert spaces [1] (RKHS’s, or, as I say it, “ruckuses”) form the mathematical bedrock of numerous machine learning techniques, from support vector machines and Gaussian processes to neural tangent kernels and random feature embeddings.</p>
+<p>The classes and methods defined in this package are meant to be compatible with other popular machine learning APIs, in particular <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>. The core object of the package is the <code class="docutils literal notranslate"><span class="pre">RKHS</span></code> class. An <code class="docutils literal notranslate"><span class="pre">RKHS</span></code> can be <code class="docutils literal notranslate"><span class="pre">fit</span></code> to data, can <code class="docutils literal notranslate"><span class="pre">transform</span></code> data by embedding it in the Hilbert space coordinates and can <code class="docutils literal notranslate"><span class="pre">fit_function</span></code>s using kernel ridge regression [2]. Averaging kernel embeddings over a sample of data points yields the kernel mean embedding of the data’s distribution [3], and the <code class="docutils literal notranslate"><span class="pre">KernelHerd</span></code> object can be applied to these embeddings to sample data using the kernel herding algorithm [4].</p>
+<p>Specific <code class="docutils literal notranslate"><span class="pre">RKHS</span></code> implementations included are:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EigenRKHS</span></code> which uses a singular value decomposition of a kernel of a specified kernel matrix, sped up with the Nyström method [5], to construct the embedding;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RandomFourierRBF</span></code> which uses Gaussian-sampled Fourier phase terms to construct embedding vectors [6];</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OneHotRKHS</span></code> which embeds categorical data in probability space.</p></li>
+</ol>
+<p>Further, <code class="docutils literal notranslate"><span class="pre">RKHS</span></code> instances can be composed into networks by use of the classes:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CompositeRKHS</span></code> which allows for the function composition of embeddings to produce pipelines and deep kernels [7];</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code> which allows for Hilbert spaces with tensor product structure, and includes methods for performing conditional density embeddings across factor spaces;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DirectSumRKHS</span></code> which allows for stacking RKHS embeddings along a concatenated axis,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ConvolutionalRKHS</span></code> which allows for using any RKHS as a convolutional filter on <code class="docutils literal notranslate"><span class="pre">n</span></code>-D data [8].</p></li>
+</ol>
+<p>On top of this, several helper functions and classes are included to provide compatibility with cross-validation and model selection via <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<p><strong>N.B.</strong> ruckus is still very much in the alpha stage, and there may be errors that I have missed. If you find any, please don’t hesitate to bring them to my attention.</p>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>To install from <code class="docutils literal notranslate"><span class="pre">pip</span></code>, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pip</span> <span class="n">install</span> <span class="n">stoclust</span>
+</pre></div>
+</div>
+<p>To build from source, you can either download the
+<a class="reference external" href="https://github.com/samlikesphysics/stoclust/archive/main.zip">zip</a>
+or <a class="reference external" href="https://github.com/samlikesphysics/stoclust/tarball/main">tarball</a> directly,
+or clone the GitHub repository via</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">samlikesphysics</span><span class="o">/</span><span class="n">stoclust</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>Then run in the the same folder as <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="dependencies">
+<h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">ruckus</span></code> depends on the following packages:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Package</p></th>
+<th class="head"><p>Recommended version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code></p></td>
+<td><p>1.20.1</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scipy</span></code></p></td>
+<td><p>1.7.0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sklearn</span></code></p></td>
+<td><p>1.0.1</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example">
+<h1>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h1>
+<p>Let us generate a dataset of the evolution of the Lorenz attractor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ruckus</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">lorenz</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">2.667</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">zs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">zs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span><span class="o">*</span><span class="n">dt</span>
+        <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">zs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">dt</span>
+        <span class="n">zs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">zs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="o">*</span><span class="n">zs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">dt</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">xs</span><span class="p">[</span><span class="kc">None</span><span class="p">,:],</span><span class="n">ys</span><span class="p">[</span><span class="kc">None</span><span class="p">,:],</span><span class="n">zs</span><span class="p">[</span><span class="kc">None</span><span class="p">,:]])</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">lorenz</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We wish to learn how any window of 10 timesteps may be predicted from the preceding 2 timesteps. To do this, we would set up a convolutional filter which takes blocks of length 12, and uses an RKHS to embed the length-2 past blocks and length-10 future blocks separately. We could use these embeddings in a product space to learn their joint distribution and compute the conditional distribution of the future window, conditioned on the past window. This can be done using the simple code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Lp</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">Lf</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span>
+
+<span class="n">conv_net</span> <span class="o">=</span> <span class="n">ruckus</span><span class="o">.</span><span class="n">convolution</span><span class="o">.</span><span class="n">ConvolutionalRKHS</span><span class="p">(</span>
+    <span class="c1"># Convolution window includes past and future</span>
+    <span class="n">window_shape</span><span class="o">=</span><span class="p">(</span><span class="n">Lp</span><span class="o">+</span><span class="n">Lf</span><span class="p">,),</span>
+    <span class="c1"># Setup filter RKHS</span>
+    <span class="n">rkhs</span><span class="o">=</span><span class="n">ruckus</span><span class="o">.</span><span class="n">ProductRKHS</span><span class="p">([</span>
+        <span class="c1"># Use Random Fourier Features</span>
+        <span class="n">ruckus</span><span class="o">.</span><span class="n">RandomFourierRBF</span><span class="p">(</span>
+            <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">n_components</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+            <span class="c1"># Take all 3 variables and past Lp timesteps</span>
+            <span class="n">take</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">]]),</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Lp</span><span class="p">))])),</span>
+            <span class="c1"># Exponentially punish further-past points</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">beta</span><span class="o">**</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Lp</span><span class="p">)][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">*</span><span class="mi">3</span><span class="p">),</span>
+            <span class="n">copy_X</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">),</span>
+        <span class="c1"># Use Random Fourier Features</span>
+        <span class="n">ruckus</span><span class="o">.</span><span class="n">RandomFourierRBF</span><span class="p">(</span>
+            <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">n_components</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+            <span class="c1"># Take all 3 variables and future Lf timesteps</span>
+            <span class="n">take</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">]]),</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Lp</span><span class="p">,</span><span class="n">Lp</span><span class="o">+</span><span class="n">Lf</span><span class="p">))])),</span>
+            <span class="c1"># Exponentially punish further-future points</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">beta</span><span class="o">**</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Lf</span><span class="p">)]]</span><span class="o">*</span><span class="mi">3</span><span class="p">),</span>
+            <span class="n">copy_X</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">),</span>
+    <span class="p">],</span><span class="n">copy_X</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Fit convolutional kernel network on data</span>
+<span class="n">conv_net</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Extract conditional distribution</span>
+<span class="n">conditional_map</span><span class="p">,</span> <span class="n">future_space</span> <span class="o">=</span> <span class="n">conv_net</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">conditional</span><span class="p">([</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let’s judge our work: for any time index <code class="docutils literal notranslate"><span class="pre">j</span></code> we can take the preceding two timesteps, use <code class="docutils literal notranslate"><span class="pre">conditional_map</span></code> to predict the embedding of the future ten timesteps, and generate forecasts using <code class="docutils literal notranslate"><span class="pre">KernelHerd</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">j</span> <span class="o">=</span> <span class="mi">750</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">25</span><span class="p">]</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">,</span><span class="sa">r</span><span class="s1">&#39;$z$&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">rng</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">dt</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="n">rng</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">rng</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">k</span><span class="p">],</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="n">names</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="n">Lp</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span><span class="p">,</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="n">Lp</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ruckus</span><span class="o">.</span><span class="n">sampling</span><span class="o">.</span><span class="n">KernelHerd</span><span class="p">(</span>
+    <span class="n">conditional_map</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="n">Lp</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">Lf</span><span class="o">+</span><span class="mi">1</span><span class="p">,]</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="kc">None</span><span class="p">])[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">future_space</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span>
+<span class="p">)))</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="n">Lf</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span><span class="p">,</span><span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">Lp</span><span class="p">:]),</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Lorenz variables $x$, $y$, $z$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Time $t$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;Lorenz.png&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference external image-reference" href="Lorenz.png"><img alt="" src="_images/Lorenz.png" /></a>
+<p>Naturally, this is not quite the best way to “learn” the Lorenz attractor; better methods would use our conditional embeddings to extract information about the dynamical system and then use <em>that</em> knowledge to make forecasts. This can also be done using the tools in <code class="docutils literal notranslate"><span class="pre">ruckus</span></code> - but is left as an exercise to the reader!</p>
+</section>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/">Aronszajn, N. “Theory of reproducing kernels.” Trans. Amer. Math. Soc. 68 (1950), 337-404.</a></p></li>
+<li><p>Murphy, K. P. “Machine Learning: A Probabilistic Perspective”, The MIT Press. chapter 14.4.3, pp. 492-493</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1605.09522/">Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. “Kernel Mean Embedding of Distributions: A Review and Beyond.” Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017)</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1203.3472">Chen, Y., Welling, M., Smola, A. “Super-Samples from Kernel Herding.” Proceedings of the Twenty-Sixth Conference on Uncertainty in Artificial Intelligence (UAI2010)</a></p></li>
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13f77f679fa1483a-Abstract.html/">Williams, C., Seeger, M. “Using the Nyström Method to Speed Up Kernel Machines.” Advances in Neural Information Processing Systems 13 (NIPS 2000)</a></p></li>
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/2007/hash/013a006f03dbc5392effeb8f18fda755-Abstract.html/">Rahimi, A., Recht, B. “Random Features for Large-Scale Kernel Machines.” Advances in Neural Information Processing Systems 20 (NIPS 2007)</a></p></li>
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/2009/hash/5751ec3e9a4feab575962e78e006250d-Abstract.html/">Cho, Y., Lawrence, S. “Kernel Methods for Deep Learning.” Advances in Neural Information Processing Systems 22 (NIPS 2009)</a></p></li>
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/2014/hash/81ca0262c82e712e50c580c032d99b60-Abstract.html">Mairal, J., Koniusz, P., Harchaoui, Z., Schmid, C. “Convolutional Kernel Networks.” Advances in Neural Information Processing Systems 27 (NIPS 2014)</a></p></li>
+</ol>
+</section>
+<section id="ruckus-api">
+<h1>ruckus API<a class="headerlink" href="#ruckus-api" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">ruckus API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/base.html">ruckus.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/embedding.html">ruckus.embedding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/convolution.html">ruckus.convolution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sampling.html">ruckus.sampling module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/cv_wrappers.html">ruckus.cv_wrappers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/scoring.html">ruckus.scoring module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        <a class="uplink" href="#">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="api/modules.html">ruckus API</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

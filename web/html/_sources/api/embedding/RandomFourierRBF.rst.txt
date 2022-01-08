@@ -1,0 +1,7 @@
+ruckus.embedding.RandomFourierRBF class
+=======================================
+
+.. autoclass:: ruckus.embedding.RandomFourierRBF
+    :members:
+    :undoc-members:
+    :show-inheritance:

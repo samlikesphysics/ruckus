@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ruckus.base.ProductRKHS class &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ruckus.base.DirectSumRKHS class" href="DirectSumRKHS.html" />
+    <link rel="prev" title="ruckus.base.CompositeRKHS class" href="CompositeRKHS.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>ruckus.base.ProductRKHS class</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="CompositeRKHS.html">ruckus.base.CompositeRKHS class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="DirectSumRKHS.html">ruckus.base.DirectSumRKHS class</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="ruckus-base-productrkhs-class">
+<h1>ruckus.base.ProductRKHS class<a class="headerlink" href="#ruckus-base-productrkhs-class" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ruckus.base.ProductRKHS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ruckus.base.</span></span><span class="sig-name descname"><span class="pre">ProductRKHS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#ProductRKHS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.ProductRKHS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">ruckus.base.RKHS</span></code></a></p>
+<p>Given a sequence of RKHS’s with Hilbert spaces <span class="math notranslate nohighlight">\(H_1\)</span>, …, <span class="math notranslate nohighlight">\(H_n\)</span> and feature
+maps <span class="math notranslate nohighlight">\(\phi_1\)</span>, …, <span class="math notranslate nohighlight">\(\phi_n\)</span>, their composition lives in the tensor product Hilbert
+space <span class="math notranslate nohighlight">\(H_1\otimes \dots \otimes H_n\)</span> and has feature map 
+<span class="math notranslate nohighlight">\(\phi_1 \otimes \dots \otimes \phi_n\)</span> [1].
+Correspondingly, the <code class="docutils literal notranslate"><span class="pre">shape_out_</span></code> of a <code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code> instance is the
+tuple-sum of the <code class="docutils literal notranslate"><span class="pre">shape_out_</span></code> tuples of its factors, while all its factors share
+the same <code class="docutils literal notranslate"><span class="pre">shape_in_</span></code>.</p>
+<p>Product RKHS’s are particularly useful for working with kernel embeddings of
+distributions and their conditional probabilities [2]. A <code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code> can
+be reduced to its marginal along a set of factors using the <a class="reference internal" href="#ruckus.base.ProductRKHS.marginal" title="ruckus.base.ProductRKHS.marginal"><code class="xref py py-func docutils literal notranslate"><span class="pre">marginal()</span></code></a>
+method, and can be reduced into a marginal space paired with a
+ridge-regressed conditional map using the <a class="reference internal" href="#ruckus.base.ProductRKHS.conditional" title="ruckus.base.ProductRKHS.conditional"><code class="xref py py-func docutils literal notranslate"><span class="pre">conditional()</span></code></a> method.</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/">Aronszajn, N. “Theory of reproducing kernels.” Trans. Amer. Math. Soc. 68 (1950), 337-404.</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1605.09522/">Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. “Kernel Mean Embedding of Distributions: A Review and Beyond.” Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017)</a></p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factors</strong> (list of <a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></a> objects) – The factor <a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></a> objects, listed in the order that their dimensions will appear in indexing.</p></li>
+<li><p><strong>copy_X</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, input <code class="docutils literal notranslate"><span class="pre">X</span></code> is copied and stored by the model in the <code class="docutils literal notranslate"><span class="pre">X_fit_</span></code> attribute. If no further changes will be done to <code class="docutils literal notranslate"><span class="pre">X</span></code>, setting <code class="docutils literal notranslate"><span class="pre">copy_X=False</span></code> saves memory by storing a reference.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape_in_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The required shape of the input datapoints, aka the shape of the domain space <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+<li><p><strong>shape_out_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The final shape of the transformed datapoints, aka the shape of the Hilbert space <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
+<li><p><strong>X_fit_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(n_samples,)+self.shape_in_</cite>) – The data which was used to fit the model.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.ProductRKHS.conditional">
+<span class="sig-name descname"><span class="pre">conditional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictor_inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regressor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#ProductRKHS.conditional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.ProductRKHS.conditional" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a pair of outputs, the first being a <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.pipelines.Pipeline</span></code> 
+consisting of the marginal RKHS of <code class="docutils literal notranslate"><span class="pre">predictor_inds</span></code> and a regressor which represents 
+the conditional distribution embedding, and the second being the marginal RKHS 
+of <code class="docutils literal notranslate"><span class="pre">response_inds</span></code>.</p>
+<p>For two systems <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, embedded in Hilbert spaces 
+<span class="math notranslate nohighlight">\(H_1\)</span> and <span class="math notranslate nohighlight">\(H_2\)</span> respectively, the conditional distribution 
+embedding is a linear map <span class="math notranslate nohighlight">\(C_{Y|X}:H_1\rightarrow H_2\)</span> such that 
+<span class="math notranslate nohighlight">\(C_{Y|X}\phi_1(x)\)</span> gives the kernel embedding of the distribution
+of <span class="math notranslate nohighlight">\(Y\)</span> conditioned on <span class="math notranslate nohighlight">\(X=x\)</span>. This is typically determined
+by using a ridge regression, though we allow the user to pass a custom 
+regressor for model selection purposes. See [1] for details.</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1605.09522/">Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. “Kernel Mean Embedding of Distributions: A Review and Beyond.” Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017)</a></p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictor_inds</strong> (<code class="docutils literal notranslate"><span class="pre">array</span></code> -like of <code class="docutils literal notranslate"><span class="pre">int</span></code>) – List of indices of the factors in <code class="docutils literal notranslate"><span class="pre">self.factors</span></code> on which the <code class="docutils literal notranslate"><span class="pre">response_inds</span></code> will be conditioned.</p></li>
+<li><p><strong>response_inds</strong> – List of indices of the factors in <code class="docutils literal notranslate"><span class="pre">self.factors</span></code> which are to be conditioned on the <code class="docutils literal notranslate"><span class="pre">predictor_inds</span></code>.</p></li>
+<li><p><strong>regressor</strong> (<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code></a>) – The regressor object to use to fit the conditional embedding. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html#sklearn.linear_model.Ridge" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.linear_model.Ridge</span></code></a> instance is used with <code class="docutils literal notranslate"><span class="pre">fit_intercept=False</span></code> and <code class="docutils literal notranslate"><span class="pre">alpha</span></code> specified below.</p></li>
+<li><p><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The ridge parameter used in the default Ridge regressor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="docutils literal notranslate"><span class="pre">pipe</span></code>,``response``), where <code class="docutils literal notranslate"><span class="pre">pipe</span></code> is a pipeline consisting of the marginal of <code class="docutils literal notranslate"><span class="pre">predictor_inds</span></code> and the fitted <code class="docutils literal notranslate"><span class="pre">regressor</span></code>, and <code class="docutils literal notranslate"><span class="pre">response</span></code> is the marginal of <code class="docutils literal notranslate"><span class="pre">response_inds</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.pipelines.Pipeline</span></code>, <code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.ProductRKHS.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#ProductRKHS.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.ProductRKHS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model from data in <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Training vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <cite>fac.take</cite> and <cite>fac.filter</cite> for each <cite>fac</cite> in <cite>self.factors</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance itself</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.ProductRKHS.kernel">
+<span class="sig-name descname"><span class="pre">kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#ProductRKHS.kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.ProductRKHS.kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the kernel on <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code> (or <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">X</span></code>) by multiplying the kernels of the factors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>.</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">X</span></code> is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The matrix <code class="docutils literal notranslate"><span class="pre">K[i,j]</span> <span class="pre">=</span> <span class="pre">k(X[i],Y[j])</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples_1,n_samples_2)</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.ProductRKHS.marginal">
+<span class="sig-name descname"><span class="pre">marginal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#ProductRKHS.marginal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.ProductRKHS.marginal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a <code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code> from only the factors specified by <code class="docutils literal notranslate"><span class="pre">var_inds</span></code>.
+Only to be used if <code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code> is already fit, and you’d rather not
+fit again.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_inds</strong> (<code class="docutils literal notranslate"><span class="pre">array</span></code> -like of <code class="docutils literal notranslate"><span class="pre">int</span></code>) – List of indices of the factors in <code class="docutils literal notranslate"><span class="pre">self.factors</span></code> from which to the marginal <code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code>.</p></li>
+<li><p><strong>copy_X</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, input <code class="docutils literal notranslate"><span class="pre">self.X_fit_</span></code> is copied and stored as the new model’s <code class="docutils literal notranslate"><span class="pre">X_fit_</span></code> attribute. If no further changes will be done to <code class="docutils literal notranslate"><span class="pre">X</span></code>, setting <code class="docutils literal notranslate"><span class="pre">copy_X=False</span></code> saves memory by storing a reference.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The marginal <code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code> of the <code class="docutils literal notranslate"><span class="pre">var_inds</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">ProductRKHS</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.ProductRKHS.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#ProductRKHS.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.ProductRKHS.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_out_</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="CompositeRKHS.html">ruckus.base.CompositeRKHS class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="DirectSumRKHS.html">ruckus.base.DirectSumRKHS class</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>
