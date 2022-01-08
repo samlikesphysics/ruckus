@@ -49,11 +49,11 @@ Then run in the the same folder as `setup.py`:
 
 `ruckus` depends on the following packages:
 
-|  Package  | Recommended version |
-| --------- | ------------------- |
-| `numpy`   | 1.20.1              |
-| `scipy`   | 1.7.0               |
-| `sklearn` | 1.0.1               |
+|    Package     | Recommended version |
+| -------------- | ------------------- |
+| `numpy`        | 1.20.1              |
+| `scipy`        | 1.7.0               |
+| `scikit-learn` | 1.0.1               |
 
 # Example
 

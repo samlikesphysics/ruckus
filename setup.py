@@ -5,7 +5,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='ruckus',
-    version='0.0.1',
+    version='0.0.2',
     author='Samuel Loomis',
     author_email='sloomis@ucdavis.edu',
     packages=['ruckus'],
@@ -16,7 +16,7 @@ setup(
     install_requires=[
         'numpy >= 1.20.1',
         'scipy >= 1.7.0',
-        'sklearn >= 1.0.1'
+        'scikit-learn >= 1.0.1'
     ],
     classifiers=[
         # How mature is this project? Common values are
