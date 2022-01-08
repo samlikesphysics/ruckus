@@ -48,7 +48,7 @@
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ``EigenRKHS`` is a child class of :py:class:`sklearn.decomposition._kernel_pca.KernelPCA`, </span>
 <span class="sd">    which adapts it to our :py:class:`RKHS` class formula, allowing interactivity with other</span>
-<span class="sd">    RKHS&#39;s. We also add new options regarding centering and Nystrom sampling for efficiency.</span>
+<span class="sd">    RKHS&#39;s. We also add new options regarding centering and Nyström sampling for efficiency.</span>
 <span class="sd">    Because of this dependency, our code and documentation inherits notably from that of ``KernelPCA``,</span>
 <span class="sd">    particularly in methods where only minor revisions were made.</span>
 
@@ -56,7 +56,7 @@
 <span class="sd">    computes the eigenvector decomposition :math:`k(x,y) = \sum_a \lambda_a \phi_a(x)\phi_a(x)` </span>
 <span class="sd">    to determine the</span>
 <span class="sd">    feature mappings :math:`\phi(x)` into the Hilbert space :math:`\mathcal{H}`. Because computing the</span>
-<span class="sd">    eigenvectors scales cubically with the number of samples, we have added options for Nystrom sampling,</span>
+<span class="sd">    eigenvectors scales cubically with the number of samples, we have added options for Nyström sampling,</span>
 <span class="sd">    which selects a smaller subset of the data to use for the eigenvector computation, and then uses those</span>
 <span class="sd">    eigenvectors to transform the remaining data [1].</span>
 
@@ -81,7 +81,7 @@
 <span class="sd">    :type n_jobs: ``int``</span>
 <span class="sd">    :param n_nystrom_samples: Default = ``1.0``. The number of samples to draw from ``X`` to compute the SVD. If ``int``, then draw ``n_nystrom_samples`` samples. If float, then draw ``n_nystrom_samples * X.shape[0]`` samples.</span>
 <span class="sd">    :type n_nystrom_samples: ``int`` or ``float``</span>
-<span class="sd">    :param sample_method: Default = ``&quot;random&quot;``. How to draw the Nystrom samples. If ``&quot;random&quot;``, then subsample randomly with replacement. If ``&quot;kmeans&quot;``, then find the ``n_nystrom_samples`` optimal means.</span>
+<span class="sd">    :param sample_method: Default = ``&quot;random&quot;``. How to draw the Nyström samples. If ``&quot;random&quot;``, then subsample randomly with replacement. If ``&quot;kmeans&quot;``, then find the ``n_nystrom_samples`` optimal means.</span>
 <span class="sd">    :type sample_method: ``str``</span>
 <span class="sd">    :param sample_iter: Default = 300. If ``sample_method = &quot;kmeans&quot;``, the number of times to iterate the algorithm.</span>
 <span class="sd">    :param n_components: Default = ``None``. Number of components. If None, all non-zero components are kept.</span>
@@ -146,7 +146,7 @@
         <span class="n">coef0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">kernel_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="c1"># Nystrom options</span>
+        <span class="c1"># Nyström options</span>
         <span class="n">n_nystrom_samples</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
         <span class="n">sample_method</span> <span class="o">=</span> <span class="s1">&#39;random&#39;</span><span class="p">,</span>
         <span class="n">sample_iter</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
@@ -232,7 +232,7 @@
     
     <span class="k">def</span> <span class="nf">_get_nys_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Takes Nystrom subsample of data: random samples with replacement if ``self.sample_method == &quot;random&quot;`` and optimal means if ``self.sample_method == &quot;kmeans&quot;``.</span>
+<span class="sd">        Takes Nyström subsample of data: random samples with replacement if ``self.sample_method == &quot;random&quot;`` and optimal means if ``self.sample_method == &quot;kmeans&quot;``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_nystrom_samples</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
             <span class="n">n_nystrom_samples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_nystrom_samples</span>
@@ -256,7 +256,7 @@
 
 <div class="viewcode-block" id="EigenRKHS.fit"><a class="viewcode-back" href="../../api/embedding/EigenRKHS.html#ruckus.embedding.EigenRKHS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fit the model from data in ``X``. This method filters the data, determines whether it is to be centered, and takes the specified Nystrom subsamples. </span>
+<span class="sd">        Fit the model from data in ``X``. This method filters the data, determines whether it is to be centered, and takes the specified Nyström subsamples. </span>
 <span class="sd">        After this, :py:func:`sklearn.decomposition._kernel_pca.KernelPCA._fit_transform` is invoked.</span>
 
 <span class="sd">        :param X: Training vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the shape of the input data. Must be consistent with preprocessing instructions in ``self.take`` and ``self.filter``. Final filtered data will be flattened on the feature axes.</span>
@@ -435,8 +435,6 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">n_features_in</span>
         <span class="n">d</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">n_features_in</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;here&#39;</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="n">d</span><span class="p">}</span>
