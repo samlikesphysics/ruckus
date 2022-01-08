@@ -1,0 +1,7 @@
+ruckus.sampling module
+======================
+
+.. automodule:: ruckus.sampling
+    :members:
+    :undoc-members:
+    :show-inheritance:

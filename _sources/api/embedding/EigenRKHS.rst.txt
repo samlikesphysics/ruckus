@@ -1,0 +1,7 @@
+ruckus.embedding.EigenRKHS class
+================================
+
+.. autoclass:: ruckus.embedding.EigenRKHS
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+ruckus.base.CompositeRKHS class
+===============================
+
+.. autoclass:: ruckus.base.CompositeRKHS
+    :members:
+    :undoc-members:
+    :show-inheritance:
