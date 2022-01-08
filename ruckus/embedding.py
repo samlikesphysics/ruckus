@@ -16,7 +16,7 @@ class EigenRKHS(_KernelPCA,_RKHS):
     r"""
     ``EigenRKHS`` is a child class of :py:class:`sklearn.decomposition._kernel_pca.KernelPCA`, 
     which adapts it to our :py:class:`RKHS` class formula, allowing interactivity with other
-    RKHS's. We also add new options regarding centering and Nystrom sampling for efficiency.
+    RKHS's. We also add new options regarding centering and Nyström sampling for efficiency.
     Because of this dependency, our code and documentation inherits notably from that of ``KernelPCA``,
     particularly in methods where only minor revisions were made.
 
@@ -24,7 +24,7 @@ class EigenRKHS(_KernelPCA,_RKHS):
     computes the eigenvector decomposition :math:`k(x,y) = \sum_a \lambda_a \phi_a(x)\phi_a(x)` 
     to determine the
     feature mappings :math:`\phi(x)` into the Hilbert space :math:`\mathcal{H}`. Because computing the
-    eigenvectors scales cubically with the number of samples, we have added options for Nystrom sampling,
+    eigenvectors scales cubically with the number of samples, we have added options for Nyström sampling,
     which selects a smaller subset of the data to use for the eigenvector computation, and then uses those
     eigenvectors to transform the remaining data [1].
 
@@ -49,7 +49,7 @@ class EigenRKHS(_KernelPCA,_RKHS):
     :type n_jobs: ``int``
     :param n_nystrom_samples: Default = ``1.0``. The number of samples to draw from ``X`` to compute the SVD. If ``int``, then draw ``n_nystrom_samples`` samples. If float, then draw ``n_nystrom_samples * X.shape[0]`` samples.
     :type n_nystrom_samples: ``int`` or ``float``
-    :param sample_method: Default = ``"random"``. How to draw the Nystrom samples. If ``"random"``, then subsample randomly with replacement. If ``"kmeans"``, then find the ``n_nystrom_samples`` optimal means.
+    :param sample_method: Default = ``"random"``. How to draw the Nyström samples. If ``"random"``, then subsample randomly with replacement. If ``"kmeans"``, then find the ``n_nystrom_samples`` optimal means.
     :type sample_method: ``str``
     :param sample_iter: Default = 300. If ``sample_method = "kmeans"``, the number of times to iterate the algorithm.
     :param n_components: Default = ``None``. Number of components. If None, all non-zero components are kept.
@@ -114,7 +114,7 @@ class EigenRKHS(_KernelPCA,_RKHS):
         coef0=1,
         kernel_params=None,
         n_jobs=None,
-        # Nystrom options
+        # Nyström options
         n_nystrom_samples = 1.0,
         sample_method = 'random',
         sample_iter = 300,
@@ -200,7 +200,7 @@ class EigenRKHS(_KernelPCA,_RKHS):
     
     def _get_nys_samples(self, X):
         """
-        Takes Nystrom subsample of data: random samples with replacement if ``self.sample_method == "random"`` and optimal means if ``self.sample_method == "kmeans"``.
+        Takes Nyström subsample of data: random samples with replacement if ``self.sample_method == "random"`` and optimal means if ``self.sample_method == "kmeans"``.
         """
         if isinstance(self.n_nystrom_samples,int):
             n_nystrom_samples = self.n_nystrom_samples
@@ -224,7 +224,7 @@ class EigenRKHS(_KernelPCA,_RKHS):
 
     def fit(self, X, y=None):
         """
-        Fit the model from data in ``X``. This method filters the data, determines whether it is to be centered, and takes the specified Nystrom subsamples. 
+        Fit the model from data in ``X``. This method filters the data, determines whether it is to be centered, and takes the specified Nyström subsamples. 
         After this, :py:func:`sklearn.decomposition._kernel_pca.KernelPCA._fit_transform` is invoked.
 
         :param X: Training vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the shape of the input data. Must be consistent with preprocessing instructions in ``self.take`` and ``self.filter``. Final filtered data will be flattened on the feature axes.
@@ -403,8 +403,6 @@ class RandomFourierRBF(_RKHS):
         if self.gamma is None:
             self.gamma = 1/n_features_in
         d = max(n_features_in,2)
-
-        print('here')
         
         if self.engine_params is None:
             params = {'d':d}

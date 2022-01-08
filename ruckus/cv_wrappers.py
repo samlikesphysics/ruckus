@@ -14,7 +14,7 @@ class ConditionalMapWrapper(_BaseEstimator):
     by using a ridge regression, though we allow the user to pass a custom 
     regressor for model selection purposes. See [1] for details.
 
-    1. `Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017) <https://arxiv.org/abs/1605.09522/>`_
+    1. `Muandet, K., Fukuzimu, K., Sriperumbudur, B., Schölkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017) <https://arxiv.org/abs/1605.09522/>`_
 
     ==========
     Parameters

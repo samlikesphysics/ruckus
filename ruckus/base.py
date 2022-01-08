@@ -383,7 +383,7 @@ class ProductRKHS(RKHS):
     ridge-regressed conditional map using the :py:func:`conditional` method.
 
     1. `Aronszajn, N. "Theory of reproducing kernels." Trans. Amer. Math. Soc. 68 (1950), 337-404. <https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/>`_
-    2. `Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017) <https://arxiv.org/abs/1605.09522/>`_
+    2. `Muandet, K., Fukuzimu, K., Sriperumbudur, B., Schölkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017) <https://arxiv.org/abs/1605.09522/>`_
 
     ==========
     Parameters
@@ -517,7 +517,7 @@ class ProductRKHS(RKHS):
         by using a ridge regression, though we allow the user to pass a custom 
         regressor for model selection purposes. See [1] for details.
 
-        1. `Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017) <https://arxiv.org/abs/1605.09522/>`_
+        1. `Muandet, K., Fukuzimu, K., Sriperumbudur, B., Schölkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017) <https://arxiv.org/abs/1605.09522/>`_
 
         :param predictor_inds: List of indices of the factors in ``self.factors`` on which the ``response_inds`` will be conditioned.
         :type predictor_inds: ``array`` -like of ``int``

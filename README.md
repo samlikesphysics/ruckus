@@ -26,16 +26,16 @@ On top of this, several helper functions and classes are included to provide com
 To install from `pip`, run
 
 ```
->>> pip install stoclust
+>>> pip install ruckus
 ```
 
 To build from source, you can either download the 
-[zip](https://github.com/samlikesphysics/stoclust/archive/main.zip) 
-or [tarball](https://github.com/samlikesphysics/stoclust/tarball/main) directly, 
+[zip](https://github.com/samlikesphysics/ruckus/archive/main.zip) 
+or [tarball](https://github.com/samlikesphysics/ruckus/tarball/main) directly, 
 or clone the GitHub repository via
 
 ```
->>> git clone https://github.com/samlikesphysics/stoclust.git
+>>> git clone https://github.com/samlikesphysics/ruckus.git
 ```
 
 Then run in the the same folder as `setup.py`:
@@ -158,7 +158,7 @@ Naturally, this is not quite the best way to "learn" the Lorenz attractor; bette
 # References
 1. [Aronszajn, N. "Theory of reproducing kernels." Trans. Amer. Math. Soc. 68 (1950), 337-404.](https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/)
 2. Murphy, K. P. "Machine Learning: A Probabilistic Perspective", The MIT Press. chapter 14.4.3, pp. 492-493
-3. [Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017)](https://arxiv.org/abs/1605.09522/)
+3. [Muandet, K., Fukuzimu, K., Sriperumbudur, B., Schölkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017)](https://arxiv.org/abs/1605.09522/)
 4. [Chen, Y., Welling, M., Smola, A. "Super-Samples from Kernel Herding." Proceedings of the Twenty-Sixth Conference on Uncertainty in Artificial Intelligence (UAI2010)](https://arxiv.org/abs/1203.3472)
 5. [Williams, C., Seeger, M. "Using the Nyström Method to Speed Up Kernel Machines." Advances in Neural Information Processing Systems 13 (NIPS 2000)](https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13f77f679fa1483a-Abstract.html/)
 6. [Rahimi, A., Recht, B. "Random Features for Large-Scale Kernel Machines." Advances in Neural Information Processing Systems 20 (NIPS 2007)](https://papers.nips.cc/paper/2007/hash/013a006f03dbc5392effeb8f18fda755-Abstract.html/)
