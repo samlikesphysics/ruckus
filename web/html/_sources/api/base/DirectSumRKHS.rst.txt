@@ -1,7 +1,0 @@
-ruckus.base.DirectSumRKHS class
-===============================
-
-.. autoclass:: ruckus.base.DirectSumRKHS
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,7 +1,0 @@
-ruckus.base.RKHS class
-======================
-
-.. autoclass:: ruckus.base.RKHS
-    :members:
-    :undoc-members:
-    :show-inheritance:

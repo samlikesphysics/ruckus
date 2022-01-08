@@ -1,7 +1,0 @@
-ruckus.scoring module
-=====================
-
-.. automodule:: ruckus.scoring
-    :members:
-    :undoc-members:
-    :show-inheritance:

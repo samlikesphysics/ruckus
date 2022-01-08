@@ -1,9 +1,0 @@
-ruckus.embedding module
-=======================
-
-.. toctree::
-   :maxdepth: 4
-
-   embedding/EigenRKHS
-   embedding/RandomFourierRBF
-   embedding/OneHotRKHS
