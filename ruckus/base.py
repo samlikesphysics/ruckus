@@ -280,7 +280,9 @@ class CompositeRKHS(RKHS):
         :returns: The transformed data
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``
         """
-        self.X_fit_ = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
+        self.X_fit_ = X
         self.shape_in_ = self.X_fit_.shape[1:]
 
         current_X = self.X_fit_
@@ -316,7 +318,9 @@ class CompositeRKHS(RKHS):
         :returns: The transformed data
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``
         """
-        current_X = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
+        current_X = X
 
         for rkhs in self.components:
             new_X = rkhs.transform(current_X)
@@ -341,12 +345,16 @@ class CompositeRKHS(RKHS):
         """
         try:
             _check_is_fitted(self)
-            current_X = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+            if self.copy_X:
+                X = X.copy()
+            current_X = X
 
             if Y is None:
                 current_Y = current_X
             else:
-                current_Y = self._validate_data(Y, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+                if self.copy_X:
+                    Y = Y.copy()
+                current_Y = Y
 
             for rkhs in self.components[:-1]:
                 current_X = rkhs.transform(current_X)
@@ -424,7 +432,9 @@ class ProductRKHS(RKHS):
         :returns: The instance itself
         :rtype: :py:class:`RKHS`
         """
-        self.X_fit_ = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
+        self.X_fit_ = X
         self.shape_in_ = self.X_fit_.shape[1:]
 
         for j in range(len(self.factors)):
@@ -443,7 +453,8 @@ class ProductRKHS(RKHS):
         :returns: The transformed data
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``
         """
-        X = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
         
         Ys = []
         for j in range(len(self.factors)):
@@ -467,11 +478,13 @@ class ProductRKHS(RKHS):
         :returns: The matrix ``K[i,j] = k(X[i],Y[j])`` 
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples_1,n_samples_2)``
         """
-        X = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
         if Y is None:
             Y = X
         else:
-            Y = self._validate_data(Y, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+            if self.copy_X:
+                Y = Y.copy()
         
         Ks = []
         for j in range(len(self.factors)):
@@ -610,7 +623,9 @@ class DirectSumRKHS(RKHS):
         :returns: The instance itself
         :rtype: :py:class:`RKHS`
         """
-        self.X_fit_ = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
+        self.X_fit_ = X
         self.shape_in_ = self.X_fit_.shape[1:]
 
         for j in range(len(self.subspaces)):
@@ -639,7 +654,8 @@ class DirectSumRKHS(RKHS):
         :returns: The transformed data
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``
         """
-        X = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
         Ys = []
         for j in range(len(self.subspaces)):
             self.subspaces[j].fit(X)
@@ -660,11 +676,13 @@ class DirectSumRKHS(RKHS):
         :returns: The matrix ``K[i,j] = k(X[i],Y[j])`` 
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples_1,n_samples_2)``
         """
-        X = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
         if Y is None:
             Y = X
         else:
-            Y = self._validate_data(Y, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+            if self.copy_X:
+                Y = Y.copy()
         
         Ks = []
         for j in range(len(self.subspaces)):
