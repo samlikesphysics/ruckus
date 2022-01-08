@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ruckus.base &#8212; ruckus 0.0.1 documentation</title>
+    <title>ruckus.base &#8212; ruckus 0.0.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>ruckus 0.0.1 documentation</span></a></h1>
+          <span>ruckus 0.0.3 documentation</span></a></h1>
         <h2 class="heading"><span>ruckus.base</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -237,8 +237,8 @@
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_take</span><span class="p">(</span><span class="n">X</span><span class="p">,)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">X</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-            <span class="k">return</span> <span class="n">X</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">filter</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">X</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
                 <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="p">)),</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">1</span><span class="p">))))</span>
@@ -593,7 +593,7 @@
 <span class="sd">    space :math:`H_1\oplus \dots \oplus H_n` and has feature map of stacked vectors</span>
 <span class="sd">    :math:`[\phi_1^T,\ \dots,\ \phi_n^T]^T` [1].</span>
 <span class="sd">    Correspondingly, the ``shape_out_`` of a ``DirectRKHS`` instance is determined the the same manner</span>
-<span class="sd">    as when using :py:func:`numpy.concatenate` on ``axis=0``, while all its subspaces share</span>
+<span class="sd">    as when using :py:func:`numpy.concatenate` on the specified axis, while all its subspaces share</span>
 <span class="sd">    the same ``shape_in_``.</span>
 
 <span class="sd">    1. `Aronszajn, N. &quot;Theory of reproducing kernels.&quot; Trans. Amer. Math. Soc. 68 (1950), 337-404. &lt;https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/&gt;`_</span>
@@ -603,6 +603,9 @@
 <span class="sd">    ==========</span>
 <span class="sd">    :param subspaces:  The subspace :py:class:`RKHS` objects, listed in the order that their indices will appear along the first axis.</span>
 <span class="sd">    :type subspaces: list of :py:class:`RKHS` objects</span>
+
+<span class="sd">    :param axis:  The axis along which the data will be concatenated. Data dimension must match on all other axes.</span>
+<span class="sd">    :type axis: int</span>
 <span class="sd">               </span>
 <span class="sd">    :param copy_X: Default = ``True``.</span>
 <span class="sd">        If ``True``, input ``X`` is copied and stored by the model in the ``X_fit_`` attribute. If no further changes will be done to ``X``, setting ``copy_X=False`` saves memory by storing a reference.</span>
@@ -621,15 +624,12 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">subspaces</span><span class="p">,</span>
-        <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">copy_X</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span> <span class="o">=</span> <span class="n">subspaces</span>
-        <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span> <span class="o">=</span> <span class="n">copy_X</span>
 
 <div class="viewcode-block" id="DirectSumRKHS.fit"><a class="viewcode-back" href="../../api/base/DirectSumRKHS.html#ruckus.base.DirectSumRKHS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -648,9 +648,14 @@
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         
-        <span class="n">shapes_out</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">shape_out_</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">shapes_out</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="mi">1</span><span class="p">:]</span><span class="o">==</span><span class="n">shapes_out</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="mi">1</span><span class="p">:]):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">shapes_out</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">shapes_out</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape_out_</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">])</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">shapes_out</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+        <span class="n">axis_mask</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shapes_out</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">axis_mask</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">_np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">shapes_out</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span><span class="n">axes</span><span class="p">]</span><span class="o">==</span><span class="n">shapes_out</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">axes</span><span class="p">]):</span>
+            <span class="n">shapesum</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">sh1</span><span class="p">,</span><span class="n">sh2</span><span class="p">:</span><span class="n">sh1</span><span class="o">+</span><span class="n">axis_mask</span><span class="o">*</span><span class="n">sh2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_reduce</span><span class="p">(</span><span class="n">shapesum</span><span class="p">,</span><span class="n">shapes_out</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="n">shapes_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Subspaces have incompatible shapes for direct sum&#39;</span><span class="p">)</span>
             
@@ -671,7 +676,7 @@
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
             <span class="n">Ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subspaces</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Ys</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Ys</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="DirectSumRKHS.kernel"><a class="viewcode-back" href="../../api/base/DirectSumRKHS.html#ruckus.base.DirectSumRKHS.kernel">[docs]</a>    <span class="k">def</span> <span class="nf">kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

@@ -205,8 +205,8 @@ class RKHS(_TransformerMixin,_BaseEstimator):
         X = self._apply_take(X,)
         if self.filter is None:
             return X
-        elif self.filter.shape == X.shape[1:]:
-            return X*self.filter
+        elif self.filter.ndim == X.ndim-1:
+            return X*self.filter[None]
         elif self.filter.ndim > X.ndim-1:
             if self.filter.shape[:X.ndim-1] == X.shape[1:]:
                 return _np.tensordot(X,self.filter,axes=(tuple(range(1,X.ndim)),tuple(range(0,X.ndim-1))))
@@ -561,7 +561,7 @@ class DirectSumRKHS(RKHS):
     space :math:`H_1\oplus \dots \oplus H_n` and has feature map of stacked vectors
     :math:`[\phi_1^T,\ \dots,\ \phi_n^T]^T` [1].
     Correspondingly, the ``shape_out_`` of a ``DirectRKHS`` instance is determined the the same manner
-    as when using :py:func:`numpy.concatenate` on ``axis=0``, while all its subspaces share
+    as when using :py:func:`numpy.concatenate` on the specified axis, while all its subspaces share
     the same ``shape_in_``.
 
     1. `Aronszajn, N. "Theory of reproducing kernels." Trans. Amer. Math. Soc. 68 (1950), 337-404. <https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/>`_
@@ -571,6 +571,9 @@ class DirectSumRKHS(RKHS):
     ==========
     :param subspaces:  The subspace :py:class:`RKHS` objects, listed in the order that their indices will appear along the first axis.
     :type subspaces: list of :py:class:`RKHS` objects
+
+    :param axis:  The axis along which the data will be concatenated. Data dimension must match on all other axes.
+    :type axis: int
                
     :param copy_X: Default = ``True``.
         If ``True``, input ``X`` is copied and stored by the model in the ``X_fit_`` attribute. If no further changes will be done to ``X``, setting ``copy_X=False`` saves memory by storing a reference.
@@ -589,15 +592,12 @@ class DirectSumRKHS(RKHS):
     def __init__(
         self,
         subspaces,
-        filters=None,
+        axis=0,
         *,
         copy_X=True
     ):
         self.subspaces = subspaces
-        if filters is None:
-            self.filters = [None]*len(self.subspaces)
-        else:
-            self.filters = filters
+        self.axis = axis
         self.copy_X = copy_X
 
     def fit(self,X,y=None):
@@ -616,9 +616,14 @@ class DirectSumRKHS(RKHS):
         for j in range(len(self.subspaces)):
             self.subspaces[j].fit(X)
         
-        shapes_out = _np.array([s.shape_out_ for s in self.subspaces])
-        if _np.all(shapes_out[1:,1:]==shapes_out[0,None,1:]):
-            self.shape_out_ = tuple(shapes_out.sum(axis=0))
+        shapes_out = _np.array([list(s.shape_out_) for s in self.subspaces])
+        axes = list(range(shapes_out.shape[1]))
+        axes.remove(self.axis)
+        axis_mask = _np.zeros(shapes_out.shape[1])
+        axis_mask[self.axis] = 1
+        if _np.all(shapes_out[1:,axes]==shapes_out[None,0,axes]):
+            shapesum = lambda sh1,sh2:sh1+axis_mask*sh2
+            self.shape_out_ = tuple(_reduce(shapesum,shapes_out[1:],shapes_out[0]))
         else:
             raise ValueError('Subspaces have incompatible shapes for direct sum')
             
@@ -639,7 +644,7 @@ class DirectSumRKHS(RKHS):
         for j in range(len(self.subspaces)):
             self.subspaces[j].fit(X)
             Ys.append(self.subspaces[j].transform(X))
-        return _np.concatenate(Ys,axis=1)
+        return _np.concatenate(Ys,axis=1+self.axis)
     
     def kernel(self,X,Y=None):
         """

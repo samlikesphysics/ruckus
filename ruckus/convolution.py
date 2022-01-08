@@ -100,10 +100,12 @@ class ConvolutionalRKHS(_RKHS):
         :returns: The transformed data
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``
         """
-        self.X_fit_ = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
+        self.X_fit_ = X
         
-        convX = self._sliding_window(X)
-        self.shape_in_ = convX.shape[1:]
+        convX = self._sliding_window(self.X_fit_)
+        self.shape_in_ = self.X_fit_.shape[1:]
         X_transformed = self.rkhs.fit_transform(convX)
         self.shape_out_ = X_transformed.shape[1:]
         return X_transformed
@@ -118,9 +120,12 @@ class ConvolutionalRKHS(_RKHS):
         :returns: The instance itself
         :rtype: :py:class:`RKHS`
         """
-        self.X_fit_ = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
-        convX = self._sliding_window(X)
-        self.shape_in_ = convX.shape[1:]
+        if self.copy_X:
+            X = X.copy()
+        self.X_fit_ = X
+
+        convX = self._sliding_window(self.X_fit_)
+        self.shape_in_ = self.X_fit_.shape[1:]
         self.rkhs.fit(convX)
         self.shape_out_ = self.rkhs.shape_out_
         return self
@@ -135,5 +140,7 @@ class ConvolutionalRKHS(_RKHS):
         :returns: The transformed data
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``
         """
-        X = self._validate_data(X, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
+        if self.copy_X:
+            X = X.copy()
+        self.X_fit_ = X
         return self.rkhs.transform(self._sliding_window(X))

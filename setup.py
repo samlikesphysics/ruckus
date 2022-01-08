@@ -5,7 +5,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='ruckus',
-    version='0.0.2',
+    version='0.0.3',
     author='Samuel Loomis',
     author_email='sloomis@ucdavis.edu',
     packages=['ruckus'],
