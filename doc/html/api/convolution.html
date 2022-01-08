@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ruckus.convolution module &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/haiku.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ruckus.sampling module" href="sampling.html" />
+    <link rel="prev" title="ruckus.embedding.OneHotRKHS class" href="embedding/OneHotRKHS.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>ruckus.convolution module</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="embedding/OneHotRKHS.html">ruckus.embedding.OneHotRKHS class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="sampling.html">ruckus.sampling module</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="module-ruckus.convolution">
+<span id="ruckus-convolution-module"></span><h1>ruckus.convolution module<a class="headerlink" href="#module-ruckus.convolution" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ruckus.convolution.ConvolutionalRKHS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ruckus.convolution.</span></span><span class="sig-name descname"><span class="pre">ConvolutionalRKHS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rkhs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ruckus/convolution.html#ConvolutionalRKHS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.convolution.ConvolutionalRKHS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="base/RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">ruckus.base.RKHS</span></code></a></p>
+<p>Kernels can be applied directly to data, or as a filter to a convolution [1]. 
+This class allows one to convolve an RKHS filter over <span class="math notranslate nohighlight">\(N\mathrm{D}\)</span> data.</p>
+<p>The dimension of the sample indices is set by the length of the <code class="docutils literal notranslate"><span class="pre">window_shape</span></code> 
+and <code class="docutils literal notranslate"><span class="pre">stride</span></code> parameters, which must match. For instance, one can take a <span class="math notranslate nohighlight">\(2\times 3\)</span>
+dimension window over the first two dimensions of the data by setting <code class="docutils literal notranslate"><span class="pre">window_shape</span> <span class="pre">=</span> <span class="pre">(2,3)</span></code>
+and <code class="docutils literal notranslate"><span class="pre">stride=(1,1)</span></code>. After pulling the sliding window data, it is fitted to or transformed by 
+the <code class="docutils literal notranslate"><span class="pre">rkhs</span></code> specified by the parameters.</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/2014/hash/81ca0262c82e712e50c580c032d99b60-Abstract.html">Mairal, J., Koniusz, P., Harchaoui, Z., Schmid, C. “Convolutional Kernel Networks.” Advances in Neural Information Processing Systems 27 (NIPS 2014)</a></p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_shape</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – Default = (2,).
+Specifies the shape of the sliding window to be passed over the first <code class="docutils literal notranslate"><span class="pre">len(window_shape)</span></code> axes of the data.</p></li>
+<li><p><strong>stride</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – Default = (1,).
+Specifies how many steps the window takes in each direction during the convolution.</p></li>
+<li><p><strong>rkhs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Specifies the <code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code> to be applied to the convolved data. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a base <code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code> instance is generated.</p></li>
+<li><p><strong>flatten_samples</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the axes which the window was applied to are flattened after the convolution. Ideal for passing to other <code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code> instances which only recognize one sample dimension.</p></li>
+<li><p><strong>flatten_features</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the original features of <code class="docutils literal notranslate"><span class="pre">X</span></code> and the new window axes are flattened together.</p></li>
+<li><p><strong>copy_X</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, input <code class="docutils literal notranslate"><span class="pre">X</span></code> is copied and stored by the model in the <code class="docutils literal notranslate"><span class="pre">X_fit_</span></code> attribute. If no further changes will be done to <code class="docutils literal notranslate"><span class="pre">X</span></code>, setting <code class="docutils literal notranslate"><span class="pre">copy_X=False</span></code> saves memory by storing a reference.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape_in_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The required shape of the input datapoints, aka the shape of the domain space <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+<li><p><strong>shape_out_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The final shape of the transformed datapoints, aka the shape of the Hilbert space <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
+<li><p><strong>X_fit_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(n_samples,)+self.shape_in_</cite>) – The data which was used to fit the model.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.convolution.ConvolutionalRKHS.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ruckus/convolution.html#ConvolutionalRKHS.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.convolution.ConvolutionalRKHS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model from data in <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Training vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <cite>self.rkhs.take</cite> and <cite>self.rkhs.filter</cite> after convolution.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance itself</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.convolution.ConvolutionalRKHS.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ruckus/convolution.html#ConvolutionalRKHS.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.convolution.ConvolutionalRKHS.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model from data in <code class="docutils literal notranslate"><span class="pre">X</span></code> and transform <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Training vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <cite>self.rkhs.take</cite> and <cite>self.rkhs.filter</cite> after convolution.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_out_</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.convolution.ConvolutionalRKHS.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ruckus/convolution.html#ConvolutionalRKHS.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.convolution.ConvolutionalRKHS.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_out_</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="embedding/OneHotRKHS.html">ruckus.embedding.OneHotRKHS class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="sampling.html">ruckus.sampling module</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

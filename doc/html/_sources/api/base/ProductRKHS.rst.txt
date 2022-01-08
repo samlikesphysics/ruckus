@@ -1,0 +1,7 @@
+ruckus.base.ProductRKHS class
+=============================
+
+.. autoclass:: ruckus.base.ProductRKHS
+    :members:
+    :undoc-members:
+    :show-inheritance:

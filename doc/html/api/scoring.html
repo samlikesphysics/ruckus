@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ruckus.scoring module &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/haiku.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="ruckus.cv_wrappers module" href="cv_wrappers.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../index.html">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>ruckus.scoring module</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="cv_wrappers.html">ruckus.cv_wrappers module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="module-ruckus.scoring">
+<span id="ruckus-scoring-module"></span><h1>ruckus.scoring module<a class="headerlink" href="#module-ruckus.scoring" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="ruckus.scoring.ghmm_score">
+<span class="sig-prename descclassname"><span class="pre">ruckus.scoring.</span></span><span class="sig-name descname"><span class="pre">ghmm_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ruckus/scoring.html#ghmm_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.scoring.ghmm_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares two sets of transition matrices for a hidden Markov model (or generalized hidden Markov model)
+and computes a score between them which is 1 if they generate the same process and <span class="math notranslate nohighlight">\(&lt;1\)</span> otherwise.</p>
+<p>Let <span class="math notranslate nohighlight">\(P^{(x)}_{ij}\)</span> and <span class="math notranslate nohighlight">\(Q^{(x)}_{ij}\)</span> be the symbol-labeled state transition matrices of two separate HMMs.
+Construct the block matrix <span class="math notranslate nohighlight">\(E^{(P,Q)}_{ij,kl}\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[E^{(P,Q)}_{ij,kl} = \sum_x P^{(x)}_{ik}Q^{(x)}_{jl}\]</div>
+<p>Denote the leading eigenvalue of this matrix across the comma as <span class="math notranslate nohighlight">\(\lambda^{(P,Q)}\)</span>.
+Then the score is computed as</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{Score} = \frac{\lambda^{(P,Q)}}{\sqrt{\lambda^{(P,P)},\lambda^{(Q,Q)}}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_symbols,n_states_1,n_states_1)</span></code>) – The symbol-labeled transition matrices of the first HMM.</p></li>
+<li><p><strong>Q</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_symbols,n_states_2,n_states_2)</span></code>) – The symbol-labeled transition matrices of the second HMM. Can have different number of states from <code class="docutils literal notranslate"><span class="pre">P</span></code> but must have same number of symbols.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ruckus.scoring.joint_probs_euclidean_scorer">
+<span class="sig-prename descclassname"><span class="pre">ruckus.scoring.</span></span><span class="sig-name descname"><span class="pre">joint_probs_euclidean_scorer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regressor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ruckus/scoring.html#joint_probs_euclidean_scorer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.scoring.joint_probs_euclidean_scorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if a conditional embedding accurately represents the correlations in the
+original dataset.</p>
+<p>If we have samples over two spaces <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> embedded into <span class="math notranslate nohighlight">\(H_1\otimes H_2\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\mu_{XY} = \frac{1}{N}\sum_i \phi_1(x_i)\otimes \phi_2(y_i)\]</div>
+<p>and an estimated conditional embedding <span class="math notranslate nohighlight">\(\hat{C}_{Y|X}\)</span>, we reconstruct the joint estimator as</p>
+<div class="math notranslate nohighlight">
+\[\hat{\mu}_{XY} = \frac{1}{N}\sum_i \phi_1(x_i)\otimes \hat{C}_{Y|X}\phi(x_i)\]</div>
+<p>and return the (negative) Euclidean distance:</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{Score} = -\left\|\mu_{XY}-\hat{\mu}_{XY}\right\|_{\mathrm{HS}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>regressor</strong> (<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code></a>) – The fitted <code class="docutils literal notranslate"><span class="pre">regressor</span></code> which computes the conditional map.</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – The training data.</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – The target data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ruckus.scoring.joint_probs_hilbert_schmidt_scorer">
+<span class="sig-prename descclassname"><span class="pre">ruckus.scoring.</span></span><span class="sig-name descname"><span class="pre">joint_probs_hilbert_schmidt_scorer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regressor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ruckus/scoring.html#joint_probs_hilbert_schmidt_scorer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.scoring.joint_probs_hilbert_schmidt_scorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if a conditional embedding accurately represents the correlations in the
+original dataset.</p>
+<p>If we have samples over two spaces <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> embedded into <span class="math notranslate nohighlight">\(H_1\otimes H_2\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\mu_{XY} = \frac{1}{N}\sum_i \phi_1(x_i)\otimes \phi_2(y_i)\]</div>
+<p>and an estimated conditional embedding <span class="math notranslate nohighlight">\(\hat{C}_{Y|X}\)</span>, we reconstruct the joint estimator as</p>
+<div class="math notranslate nohighlight">
+\[\hat{\mu}_{XY} = \frac{1}{N}\sum_i \phi_1(x_i)\otimes \hat{C}_{Y|X}\phi(x_i)\]</div>
+<p>and return the normalized Hilbert-Schmidt inner product:</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{Score} = \frac{\left&lt;\mu_{XY},\hat{\mu}_{XY}\right&gt;_{\mathrm{HS}}}{\sqrt{\left&lt;\hat{\mu}_{XY},\hat{\mu}_{XY}\right&gt;_{\mathrm{HS}}\left&lt;\mu_{XY},\mu_{XY}\right&gt;_{\mathrm{HS}}}}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>regressor</strong> (<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html#sklearn.base.BaseEstimator" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.base.BaseEstimator</span></code></a>) – The fitted <code class="docutils literal notranslate"><span class="pre">regressor</span></code> which computes the conditional map.</p></li>
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – The training data.</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – The target data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="cv_wrappers.html">ruckus.cv_wrappers module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

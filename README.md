@@ -1,4 +1,4 @@
-# `ruckus` is a package for building networks of reproducing kernel Hilbert spaces for machine learning.
+# `ruckus` is a Python package for building networks of reproducing kernel Hilbert spaces for machine learning.
 
 Reproducing kernel Hilbert spaces [1] (RKHS's, or, as I say it, "ruckuses") form the mathematical bedrock of numerous machine learning techniques, from support vector machines and Gaussian processes to neural tangent kernels and random feature embeddings. 
 
@@ -156,11 +156,11 @@ plt.show()
 Naturally, this is not quite the best way to "learn" the Lorenz attractor; better methods would use our conditional embeddings to extract information about the dynamical system and then use *that* knowledge to make forecasts. This can also be done using the tools in `ruckus` - but is left as an exercise to the reader!
 
 # References
-1. `Aronszajn, N. "Theory of reproducing kernels." Trans. Amer. Math. Soc. 68 (1950), 337-404. <https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/>`_
+1. [Aronszajn, N. "Theory of reproducing kernels." Trans. Amer. Math. Soc. 68 (1950), 337-404.](https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/)
 2. Murphy, K. P. "Machine Learning: A Probabilistic Perspective", The MIT Press. chapter 14.4.3, pp. 492-493
-3. `Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017) <https://arxiv.org/abs/1605.09522/>`_
-4. `Chen, Y., Welling, M., Smola, A. "Super-Samples from Kernel Herding." Proceedings of the Twenty-Sixth Conference on Uncertainty in Artificial Intelligence (UAI2010) <https://arxiv.org/abs/1203.3472>`_
-5. `Williams, C., Seeger, M. "Using the Nyström Method to Speed Up Kernel Machines." Advances in Neural Information Processing Systems 13 (NIPS 2000) <https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13f77f679fa1483a-Abstract.html/>`_
-6. `Rahimi, A., Recht, B. "Random Features for Large-Scale Kernel Machines." Advances in Neural Information Processing Systems 20 (NIPS 2007) <https://papers.nips.cc/paper/2007/hash/013a006f03dbc5392effeb8f18fda755-Abstract.html/>`_
-7. `Cho, Y., Lawrence, S. "Kernel Methods for Deep Learning." Advances in Neural Information Processing Systems 22 (NIPS 2009) <https://papers.nips.cc/paper/2009/hash/5751ec3e9a4feab575962e78e006250d-Abstract.html/>`_
-8. `Mairal, J., Koniusz, P., Harchaoui, Z., Schmid, C. "Convolutional Kernel Networks." Advances in Neural Information Processing Systems 27 (NIPS 2014) <https://papers.nips.cc/paper/2014/hash/81ca0262c82e712e50c580c032d99b60-Abstract.html>`_
+3. [Muandet, K., Fukuzimu, K., Sriperumbudur, B., Scholkopf, B. "Kernel Mean Embedding of Distributions: A Review and Beyond." Foundations and Trends in Machine Learning: Vol. 10: No. 1-2, pp 1-141 (2017)](https://arxiv.org/abs/1605.09522/)
+4. [Chen, Y., Welling, M., Smola, A. "Super-Samples from Kernel Herding." Proceedings of the Twenty-Sixth Conference on Uncertainty in Artificial Intelligence (UAI2010)](https://arxiv.org/abs/1203.3472)
+5. [Williams, C., Seeger, M. "Using the Nyström Method to Speed Up Kernel Machines." Advances in Neural Information Processing Systems 13 (NIPS 2000)](https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13f77f679fa1483a-Abstract.html/)
+6. [Rahimi, A., Recht, B. "Random Features for Large-Scale Kernel Machines." Advances in Neural Information Processing Systems 20 (NIPS 2007)](https://papers.nips.cc/paper/2007/hash/013a006f03dbc5392effeb8f18fda755-Abstract.html/)
+7. [Cho, Y., Lawrence, S. "Kernel Methods for Deep Learning." Advances in Neural Information Processing Systems 22 (NIPS 2009)](https://papers.nips.cc/paper/2009/hash/5751ec3e9a4feab575962e78e006250d-Abstract.html/)
+8. [Mairal, J., Koniusz, P., Harchaoui, Z., Schmid, C. "Convolutional Kernel Networks." Advances in Neural Information Processing Systems 27 (NIPS 2014)](https://papers.nips.cc/paper/2014/hash/81ca0262c82e712e50c580c032d99b60-Abstract.html)

@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ruckus.embedding.OneHotRKHS class &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ruckus.convolution module" href="../convolution.html" />
+    <link rel="prev" title="ruckus.embedding.RandomFourierRBF class" href="RandomFourierRBF.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>ruckus.embedding.OneHotRKHS class</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="RandomFourierRBF.html">ruckus.embedding.RandomFourierRBF class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../convolution.html">ruckus.convolution module</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="ruckus-embedding-onehotrkhs-class">
+<h1>ruckus.embedding.OneHotRKHS class<a class="headerlink" href="#ruckus-embedding-onehotrkhs-class" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ruckus.embedding.OneHotRKHS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ruckus.embedding.</span></span><span class="sig-name descname"><span class="pre">OneHotRKHS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#OneHotRKHS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.OneHotRKHS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../base/RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">ruckus.base.RKHS</span></code></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">OneHotRKHS</span></code> is for processing categorical data.
+If <span class="math notranslate nohighlight">\(X\)</span> is a discrete set, this generates an embedding map <span class="math notranslate nohighlight">\(\phi:X\rightarrow H\)</span> 
+into a Hilbert space <span class="math notranslate nohighlight">\(H\)</span> whose dimension is the cardinality of <span class="math notranslate nohighlight">\(X\)</span>, such that
+<span class="math notranslate nohighlight">\(\phi(x)\)</span> maps the element <span class="math notranslate nohighlight">\(x\)</span> to a one-hot vector with the 1-valued component 
+in the dimension which uniquely corresponds to <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>This is particularly advantageous when working with kernel embeddings of distributions, as
+the embedded distribution vector is itself a probability vector (positive components and sums to 1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>take</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of <code class="docutils literal notranslate"><span class="pre">dtype</span> <span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">bool</span></code>, or <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> instances of type <code class="docutils literal notranslate"><span class="pre">int</span></code>, or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Specifies which values to take from the datapoint for transformation.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the entire datapoint will be taken in its original shape.
+If <code class="docutils literal notranslate"><span class="pre">bool</span></code> array, acts as a mask setting values marked <code class="docutils literal notranslate"><span class="pre">False</span></code> to <code class="docutils literal notranslate"><span class="pre">0</span></code> and leaving values marked True unchanged.
+If <code class="docutils literal notranslate"><span class="pre">int</span></code> array, the integers specify the indices (along the first feature dimension) which are to be taken, in the order/shape of the desired input.
+If <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code> arrays, allows for drawing indices across multiple dimensions, similar to passing a <code class="docutils literal notranslate"><span class="pre">tuple</span></code> to a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array.</p></li>
+<li><p><strong>copy_X</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, input <code class="docutils literal notranslate"><span class="pre">X</span></code> is copied and stored by the model in the <code class="docutils literal notranslate"><span class="pre">X_fit_</span></code> attribute. If no further changes will be done to <code class="docutils literal notranslate"><span class="pre">X</span></code>, setting <code class="docutils literal notranslate"><span class="pre">copy_X=False</span></code> saves memory by storing a reference.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alphabet_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of <code class="docutils literal notranslate"><span class="pre">objects</span></code>) – The unique elements from <code class="docutils literal notranslate"><span class="pre">self.X_fit_</span></code>.</p></li>
+<li><p><strong>shape_in_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The required shape of the input datapoints, aka the shape of the domain space <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+<li><p><strong>shape_out_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The final shape of the transformed datapoints, aka the shape of the Hilbert space <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
+<li><p><strong>X_fit_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_in_</span></code>) – The data which was used to fit the model.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.embedding.OneHotRKHS.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#OneHotRKHS.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.OneHotRKHS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model from data in <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Training vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <code class="docutils literal notranslate"><span class="pre">self.take</span></code>.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – Not used, present for API consistency by convention.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance itself</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.embedding.OneHotRKHS.kernel">
+<span class="sig-name descname"><span class="pre">kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#OneHotRKHS.kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.OneHotRKHS.kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies <code class="docutils literal notranslate"><span class="pre">self.take</span></code> and <code class="docutils literal notranslate"><span class="pre">self.filter</span></code> to data, then
+calls <code class="xref py py-func docutils literal notranslate"><span class="pre">_get_kernel()</span></code> for kernel evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the number of features. Must be consistent with preprocessing instructions in <code class="docutils literal notranslate"><span class="pre">self.take</span></code>.</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <code class="docutils literal notranslate"><span class="pre">self.take</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">X</span></code> is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The matrix <code class="docutils literal notranslate"><span class="pre">K[i,j]</span> <span class="pre">=</span> <span class="pre">k(X[i],Y[j])</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples_1,n_samples_2)</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.embedding.OneHotRKHS.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#OneHotRKHS.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.OneHotRKHS.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_out_</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="RandomFourierRBF.html">ruckus.embedding.RandomFourierRBF class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../convolution.html">ruckus.convolution module</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

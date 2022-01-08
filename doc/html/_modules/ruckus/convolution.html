@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ruckus.convolution &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>ruckus.convolution</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        <a class="uplink" href="../../index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <h1>Source code for ruckus.convolution</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">ruckus.base</span> <span class="kn">import</span> <span class="n">RKHS</span> <span class="k">as</span> <span class="n">_RKHS</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">_np</span>
+<span class="kn">from</span> <span class="nn">numpy.lib.stride_tricks</span> <span class="kn">import</span> <span class="n">sliding_window_view</span> <span class="k">as</span> <span class="n">_sliding_window_view</span>
+
+<div class="viewcode-block" id="ConvolutionalRKHS"><a class="viewcode-back" href="../../api/convolution.html#ruckus.convolution.ConvolutionalRKHS">[docs]</a><span class="k">class</span> <span class="nc">ConvolutionalRKHS</span><span class="p">(</span><span class="n">_RKHS</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Kernels can be applied directly to data, or as a filter to a convolution [1]. </span>
+<span class="sd">    This class allows one to convolve an RKHS filter over :math:`N\mathrm{D}` data.</span>
+
+<span class="sd">    The dimension of the sample indices is set by the length of the ``window_shape`` </span>
+<span class="sd">    and ``stride`` parameters, which must match. For instance, one can take a :math:`2\times 3`</span>
+<span class="sd">    dimension window over the first two dimensions of the data by setting ``window_shape = (2,3)``</span>
+<span class="sd">    and ``stride=(1,1)``. After pulling the sliding window data, it is fitted to or transformed by </span>
+<span class="sd">    the ``rkhs`` specified by the parameters.</span>
+
+<span class="sd">    1. `Mairal, J., Koniusz, P., Harchaoui, Z., Schmid, C. &quot;Convolutional Kernel Networks.&quot; Advances in Neural Information Processing Systems 27 (NIPS 2014) &lt;https://papers.nips.cc/paper/2014/hash/81ca0262c82e712e50c580c032d99b60-Abstract.html&gt;`_</span>
+<span class="sd">    </span>
+<span class="sd">    ==========</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    :param window_shape: Default = (2,).</span>
+<span class="sd">        Specifies the shape of the sliding window to be passed over the first ``len(window_shape)`` axes of the data.</span>
+<span class="sd">    :type window_shape: ``tuple``</span>
+<span class="sd">    :param stride: Default = (1,).</span>
+<span class="sd">        Specifies how many steps the window takes in each direction during the convolution.</span>
+<span class="sd">    :type stride: ``tuple``</span>
+<span class="sd">    :param rkhs: Default = ``None``.</span>
+<span class="sd">        Specifies the :py:class:`RKHS` to be applied to the convolved data. If ``None``, a base :py:class:`RKHS` instance is generated. </span>
+<span class="sd">    :type rkhs: :py:class:`RKHS` or ``None``</span>
+<span class="sd">    :param flatten_samples: Default = ``True``.</span>
+<span class="sd">        If ``True``, the axes which the window was applied to are flattened after the convolution. Ideal for passing to other :py:class:`RKHS` instances which only recognize one sample dimension.</span>
+<span class="sd">    :type flatten_samples: ``bool``</span>
+<span class="sd">    :param flatten_features: Default = ``False``.</span>
+<span class="sd">        If ``True``, the original features of ``X`` and the new window axes are flattened together.</span>
+<span class="sd">    :type flatten_features: ``bool``</span>
+<span class="sd">    :param copy_X: Default = ``True``.</span>
+<span class="sd">        If ``True``, input ``X`` is copied and stored by the model in the ``X_fit_`` attribute. If no further changes will be done to ``X``, setting ``copy_X=False`` saves memory by storing a reference.</span>
+<span class="sd">    :type copy_X: ``bool``</span>
+
+<span class="sd">    ==========</span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ==========</span>
+<span class="sd">    :param shape_in\_: The required shape of the input datapoints, aka the shape of the domain space :math:`X`.</span>
+<span class="sd">    :type shape_in\_: ``tuple``</span>
+<span class="sd">    :param shape_out\_: The final shape of the transformed datapoints, aka the shape of the Hilbert space :math:`H`.</span>
+<span class="sd">    :type shape_out\_: ``tuple``</span>
+<span class="sd">    :param X_fit\_: The data which was used to fit the model.</span>
+<span class="sd">    :type X_fit\_: :py:class:`numpy.ndarray` of shape `(n_samples,)+self.shape_in_`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">window_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,),</span>
+        <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span>
+        <span class="n">rkhs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">flatten_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">flatten_features</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="c1"># Misc.</span>
+        <span class="n">copy_X</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_shape</span> <span class="o">=</span> <span class="n">window_shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">stride</span>
+        <span class="k">if</span> <span class="n">rkhs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span> <span class="o">=</span> <span class="n">_RKHS</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span> <span class="o">=</span> <span class="n">rkhs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten_samples</span> <span class="o">=</span> <span class="n">flatten_samples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten_features</span> <span class="o">=</span> <span class="n">flatten_features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span> <span class="o">=</span> <span class="n">copy_X</span>
+
+    <span class="k">def</span> <span class="nf">_sliding_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies a sliding window to the data and reshapes it according to ``self.flatten_samples`` and ``self.flatten_features``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sample_dims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_shape</span><span class="p">)</span>
+
+        <span class="n">stride_inds</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">_np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">window_shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_dims</span><span class="p">)])</span>
+        <span class="n">X_slide</span> <span class="o">=</span> <span class="n">_sliding_window_view</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window_shape</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">sample_dims</span><span class="p">))</span>
+        <span class="p">)[</span><span class="n">stride_inds</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten_samples</span><span class="p">:</span>
+            <span class="n">X_slide</span> <span class="o">=</span> <span class="n">X_slide</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">_np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">X_slide</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">sample_dims</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),)</span><span class="o">+</span><span class="n">X_slide</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">sample_dims</span><span class="p">:])</span>
+            <span class="n">sample_dims</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten_features</span><span class="p">:</span>
+            <span class="n">X_slide</span> <span class="o">=</span> <span class="n">X_slide</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_slide</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">sample_dims</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">_np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">X_slide</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">sample_dims</span><span class="p">:],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),))</span>
+
+        <span class="k">return</span> <span class="n">X_slide</span>
+
+<div class="viewcode-block" id="ConvolutionalRKHS.fit_transform"><a class="viewcode-back" href="../../api/convolution.html#ruckus.convolution.ConvolutionalRKHS.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the model from data in ``X`` and transform ``X``.</span>
+
+<span class="sd">        :param X: Training vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the shape of the input data. Must be consistent with preprocessing instructions in `self.rkhs.take` and `self.rkhs.filter` after convolution.</span>
+<span class="sd">        :type X: :py:class:`numpy.ndarray` of shape ``(n_samples, n_features_1,...,n_features_d)``        </span>
+
+<span class="sd">        :returns: The transformed data</span>
+<span class="sd">        :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">,</span><span class="n">allow_nd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+        <span class="n">convX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="n">convX</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">X_transformed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">convX</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="n">X_transformed</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">X_transformed</span></div>
+    
+<div class="viewcode-block" id="ConvolutionalRKHS.fit"><a class="viewcode-back" href="../../api/convolution.html#ruckus.convolution.ConvolutionalRKHS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the model from data in ``X``.</span>
+
+<span class="sd">        :param X: Training vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the shape of the input data. Must be consistent with preprocessing instructions in `self.rkhs.take` and `self.rkhs.filter` after convolution.</span>
+<span class="sd">        :type X: :py:class:`numpy.ndarray` of shape ``(n_samples, n_features_1,...,n_features_d)``        </span>
+
+<span class="sd">        :returns: The instance itself</span>
+<span class="sd">        :rtype: :py:class:`RKHS`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">,</span><span class="n">allow_nd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">convX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="n">convX</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">convX</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">shape_out_</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+    
+<div class="viewcode-block" id="ConvolutionalRKHS.transform"><a class="viewcode-back" href="../../api/convolution.html#ruckus.convolution.ConvolutionalRKHS.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform ``X``.</span>
+
+<span class="sd">        :param X: Data vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the shape of the input data. These must match ``self.shape_in_``.</span>
+<span class="sd">        :type X: :py:class:`numpy.ndarray` of shape ``(n_samples, n_features_1,...,n_features_d)``   </span>
+
+<span class="sd">        :returns: The transformed data</span>
+<span class="sd">        :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="s2">&quot;csr&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">,</span><span class="n">allow_nd</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ensure_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rkhs</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sliding_window</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></div></div>
+</pre></div>
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        <a class="uplink" href="../../index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ruckus.embedding.EigenRKHS class &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ruckus.embedding.RandomFourierRBF class" href="RandomFourierRBF.html" />
+    <link rel="prev" title="ruckus.embedding module" href="../embedding.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>ruckus.embedding.EigenRKHS class</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../embedding.html">ruckus.embedding module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="RandomFourierRBF.html">ruckus.embedding.RandomFourierRBF class</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="ruckus-embedding-eigenrkhs-class">
+<h1>ruckus.embedding.EigenRKHS class<a class="headerlink" href="#ruckus-embedding-eigenrkhs-class" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ruckus.embedding.EigenRKHS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ruckus.embedding.</span></span><span class="sig-name descname"><span class="pre">EigenRKHS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rbf'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_nystrom_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'random'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centered</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eigen_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterated_power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_zero_eig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#EigenRKHS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.EigenRKHS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA</span></code></a>, <a class="reference internal" href="../base/RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">ruckus.base.RKHS</span></code></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">EigenRKHS</span></code> is a child class of <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA</span></code></a>, 
+which adapts it to our <code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code> class formula, allowing interactivity with other
+RKHS’s. We also add new options regarding centering and Nystrom sampling for efficiency.
+Because of this dependency, our code and documentation inherits notably from that of <code class="docutils literal notranslate"><span class="pre">KernelPCA</span></code>,
+particularly in methods where only minor revisions were made.</p>
+<p><code class="docutils literal notranslate"><span class="pre">EigenRKHS</span></code> is initialized with a kernel <span class="math notranslate nohighlight">\(k(x,y)\)</span>—which now defaults to a Gaussian RBF—and 
+computes the eigenvector decomposition <span class="math notranslate nohighlight">\(k(x,y) = \sum_a \lambda_a \phi_a(x)\phi_a(x)\)</span> 
+to determine the
+feature mappings <span class="math notranslate nohighlight">\(\phi(x)\)</span> into the Hilbert space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>. Because computing the
+eigenvectors scales cubically with the number of samples, we have added options for Nystrom sampling,
+which selects a smaller subset of the data to use for the eigenvector computation, and then uses those
+eigenvectors to transform the remaining data [1].</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13f77f679fa1483a-Abstract.html/">Williams, C., Seeger, M. “Using the Nyström Method to Speed Up Kernel Machines.” Advances in Neural Information Processing Systems 13 (NIPS 2000)</a></p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>use_kernel</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">callable</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">&quot;rbf&quot;</span></code>.
+See <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA</span></code></a> for kernel options.</p></li>
+<li><p><strong>gamma</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>. Kernel coefficient for rbf, poly and sigmoid kernels. Ignored by other kernels. If <code class="docutils literal notranslate"><span class="pre">gamma</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, then it is set to <code class="docutils literal notranslate"><span class="pre">1/n_features</span></code>.</p></li>
+<li><p><strong>degree</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Default = 3. Degree for poly kernels. Ignored by other kernels.</p></li>
+<li><p><strong>coef0</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>) – Default = 1. Independent term in poly and sigmoid kernels. Ignored by other kernels.</p></li>
+<li><p><strong>kernel_params</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>. Parameters (keyword arguments) and values for kernel passed as callable object. Ignored by other kernels.</p></li>
+<li><p><strong>n_jobs</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>. Number of parallel jobs to run. See <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA</span></code></a> for details.</p></li>
+<li><p><strong>n_nystrom_samples</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">float</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. The number of samples to draw from <code class="docutils literal notranslate"><span class="pre">X</span></code> to compute the SVD. If <code class="docutils literal notranslate"><span class="pre">int</span></code>, then draw <code class="docutils literal notranslate"><span class="pre">n_nystrom_samples</span></code> samples. If float, then draw <code class="docutils literal notranslate"><span class="pre">n_nystrom_samples</span> <span class="pre">*</span> <span class="pre">X.shape[0]</span></code> samples.</p></li>
+<li><p><strong>sample_method</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">&quot;random&quot;</span></code>. How to draw the Nystrom samples. If <code class="docutils literal notranslate"><span class="pre">&quot;random&quot;</span></code>, then subsample randomly with replacement. If <code class="docutils literal notranslate"><span class="pre">&quot;kmeans&quot;</span></code>, then find the <code class="docutils literal notranslate"><span class="pre">n_nystrom_samples</span></code> optimal means.</p></li>
+<li><p><strong>sample_iter</strong> – Default = 300. If <code class="docutils literal notranslate"><span class="pre">sample_method</span> <span class="pre">=</span> <span class="pre">&quot;kmeans&quot;</span></code>, the number of times to iterate the algorithm.</p></li>
+<li><p><strong>n_components</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>. Number of components. If None, all non-zero components are kept.</p></li>
+<li><p><strong>centered</strong> – Default = <code class="docutils literal notranslate"><span class="pre">False</span></code>. Whether to center the kernel before computing the SVD. This must be <code class="docutils literal notranslate"><span class="pre">False</span></code> for embeddings of distributions to be valid.</p></li>
+<li><p><strong>eigen_solver</strong> ({<code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;dense&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;arpack&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;randomized&quot;</span></code>}) – Default = <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>. Solver to use for eigenvector computation. See <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA</span></code></a> for details.</p></li>
+<li><p><strong>tol</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>) – Default = 0. Convergence tolerance for arpack. If 0, optimal value will be chosen by arpack.</p></li>
+<li><p><strong>max_iter</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>. Maximum number of iterations for arpack. If None, optimal value will be chosen by arpack.</p></li>
+<li><p><strong>iterated_power</strong> (<code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>. Number of iterations for the power method computed by <code class="docutils literal notranslate"><span class="pre">svd_solver</span> <span class="pre">==</span> <span class="pre">&quot;randomized&quot;</span></code>. When <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>, it is set to 7 when <code class="docutils literal notranslate"><span class="pre">n_components</span> <span class="pre">&lt;</span> <span class="pre">0.1</span> <span class="pre">*</span> <span class="pre">min(X.shape)</span></code>, other it is set to 4.</p></li>
+<li><p><strong>remove_zero_eig</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+If True, then all components with zero eigenvalues are removed, so that the number of components in the output may be &lt; n_components (and sometimes even zero due to numerical instability). When n_components is None, this parameter is ignored and components with zero eigenvalues are removed regardless.</p></li>
+<li><p><strong>random_state</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Used when eigen_solver == “arpack” or “randomized”. <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA" title="(in scikit-learn v1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA</span></code></a> for more details.</p></li>
+<li><p><strong>take</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of <code class="docutils literal notranslate"><span class="pre">dtype</span> <span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">bool</span></code>, or <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> instances of type <code class="docutils literal notranslate"><span class="pre">int</span></code>, or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Specifies which values to take from the datapoint for transformation.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the entire datapoint will be taken in its original shape.
+If <code class="docutils literal notranslate"><span class="pre">bool</span></code> array, acts as a mask setting values marked <code class="docutils literal notranslate"><span class="pre">False</span></code> to <code class="docutils literal notranslate"><span class="pre">0</span></code> and leaving values marked True unchanged.
+If <code class="docutils literal notranslate"><span class="pre">int</span></code> array, the integers specify the indices (along the first feature dimension) which are to be taken, in the order/shape of the desired input.
+If <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code> arrays, allows for drawing indices across multiple dimensions, similar to passing a <code class="docutils literal notranslate"><span class="pre">tuple</span></code> to a <code class="docutils literal notranslate"><span class="pre">numpy</span></code> array.</p></li>
+<li><p><strong>filter</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of <code class="docutils literal notranslate"><span class="pre">dtype</span> <span class="pre">float</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Specifies a linear preprocessing of the data. Applied after take.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, no changes are made to the input data.
+If the same shape as the input datapoints, <code class="docutils literal notranslate"><span class="pre">filter</span></code> and the datapoint are multiplied elementwise. 
+If <code class="docutils literal notranslate"><span class="pre">filter</span></code> has a larger dimension than the datapoint, then its first dimensions will be contracted with the datapoint via <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.tensordot.html#numpy.tensordot" title="(in NumPy v1.22)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.tensordot()</span></code></a>. The final shape is determined by the remaining dimensions of filter.</p></li>
+<li><p><strong>copy_X</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, input <code class="docutils literal notranslate"><span class="pre">X</span></code> is copied and stored by the model in the <code class="docutils literal notranslate"><span class="pre">X_fit_</span></code> attribute. If no further changes will be done to <code class="docutils literal notranslate"><span class="pre">X</span></code>, setting <code class="docutils literal notranslate"><span class="pre">copy_X=False</span></code> saves memory by storing a reference.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eigenvalues_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_components,)</span></code>) – Eigenvalues of the centered kernel matrix in decreasing order. If <code class="docutils literal notranslate"><span class="pre">n_components</span></code> and <code class="docutils literal notranslate"><span class="pre">remove_zero_eig</span></code> are not set, then all values are stored.</p></li>
+<li><p><strong>eigenvectors_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,n_components)</span></code>) – Eigenvectors of the kernel matrix. If <code class="docutils literal notranslate"><span class="pre">n_components</span></code> and <code class="docutils literal notranslate"><span class="pre">remove_zero_eig</span></code> are not set, then all components are stored.</p></li>
+<li><p><strong>shape_in_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The required shape of the input datapoints, aka the shape of the domain space <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+<li><p><strong>shape_out_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The final shape of the transformed datapoints, aka the shape of the Hilbert space <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
+<li><p><strong>X_fit_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_in_</span></code>) – The data which was used to fit the model.</p></li>
+<li><p><strong>X_nys_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_nystrom_samples,n_features_in_)</span></code>) – The nystrom subsamples of the data used to fit the model.</p></li>
+<li><p><strong>n_features_in_</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – The size of the features after preprocessing.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.embedding.EigenRKHS.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#EigenRKHS.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.EigenRKHS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model from data in <code class="docutils literal notranslate"><span class="pre">X</span></code>. This method filters the data, determines whether it is to be centered, and takes the specified Nystrom subsamples. 
+After this, <code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA._fit_transform()</span></code> is invoked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Training vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <code class="docutils literal notranslate"><span class="pre">self.take</span></code> and <code class="docutils literal notranslate"><span class="pre">self.filter</span></code>. Final filtered data will be flattened on the feature axes.</p></li>
+<li><p><strong>y</strong> (<em>Ignored</em>) – Not used, present for API consistency by convention.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance itself</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.embedding.EigenRKHS.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#EigenRKHS.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.EigenRKHS.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model from data in <code class="docutils literal notranslate"><span class="pre">X</span></code> and transform <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Training vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <code class="docutils literal notranslate"><span class="pre">self.take</span></code> and <code class="docutils literal notranslate"><span class="pre">self.filter</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_out_</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.embedding.EigenRKHS.kernel">
+<span class="sig-name descname"><span class="pre">kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#EigenRKHS.kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.EigenRKHS.kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies <code class="docutils literal notranslate"><span class="pre">self.take</span></code> and <code class="docutils literal notranslate"><span class="pre">self.filter</span></code> to data, then
+calls <code class="xref py py-func docutils literal notranslate"><span class="pre">_get_kernel()</span></code> for kernel evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the number of features. Must be consistent with preprocessing instructions in <code class="docutils literal notranslate"><span class="pre">self.take</span></code> and <code class="docutils literal notranslate"><span class="pre">self.factors</span></code>.</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <code class="docutils literal notranslate"><span class="pre">self.take</span></code> and <code class="docutils literal notranslate"><span class="pre">self.factors</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">X</span></code> is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The matrix <code class="docutils literal notranslate"><span class="pre">K[i,j]</span> <span class="pre">=</span> <span class="pre">k(X[i],Y[j])</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples_1,n_samples_2)</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.embedding.EigenRKHS.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#EigenRKHS.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.EigenRKHS.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform <code class="docutils literal notranslate"><span class="pre">X</span></code>. This differs from <code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.decomposition._kernel_pca.KernelPCA.transform()</span></code> in the data preprocessing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_out_</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="../embedding.html">ruckus.embedding module</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="RandomFourierRBF.html">ruckus.embedding.RandomFourierRBF class</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

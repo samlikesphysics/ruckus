@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ruckus.base.DirectSumRKHS class &#8212; ruckus 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ruckus.embedding module" href="../embedding.html" />
+    <link rel="prev" title="ruckus.base.ProductRKHS class" href="ProductRKHS.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
+          <span>ruckus 0.0.1 documentation</span></a></h1>
+        <h2 class="heading"><span>ruckus.base.DirectSumRKHS class</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="ProductRKHS.html">ruckus.base.ProductRKHS class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../embedding.html">ruckus.embedding module</a>&#160;&#160;»
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="ruckus-base-directsumrkhs-class">
+<h1>ruckus.base.DirectSumRKHS class<a class="headerlink" href="#ruckus-base-directsumrkhs-class" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ruckus.base.DirectSumRKHS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ruckus.base.</span></span><span class="sig-name descname"><span class="pre">DirectSumRKHS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subspaces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#DirectSumRKHS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.DirectSumRKHS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">ruckus.base.RKHS</span></code></a></p>
+<p>Given a sequence of RKHS’s with Hilbert spaces <span class="math notranslate nohighlight">\(H_1\)</span>, …, <span class="math notranslate nohighlight">\(H_n\)</span> and feature
+maps <span class="math notranslate nohighlight">\(\phi_1\)</span>, …, <span class="math notranslate nohighlight">\(\phi_n\)</span>, their direct sum lives in the tensor product Hilbert
+space <span class="math notranslate nohighlight">\(H_1\oplus \dots \oplus H_n\)</span> and has feature map of stacked vectors
+<span class="math notranslate nohighlight">\([\phi_1^T,\ \dots,\ \phi_n^T]^T\)</span> [1].
+Correspondingly, the <code class="docutils literal notranslate"><span class="pre">shape_out_</span></code> of a <code class="docutils literal notranslate"><span class="pre">DirectRKHS</span></code> instance is determined the the same manner
+as when using <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.concatenate.html#numpy.concatenate" title="(in NumPy v1.22)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.concatenate()</span></code></a> on <code class="docutils literal notranslate"><span class="pre">axis=0</span></code>, while all its subspaces share
+the same <code class="docutils literal notranslate"><span class="pre">shape_in_</span></code>.</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://www.ams.org/journals/tran/1950-068-03/S0002-9947-1950-0051437-7/">Aronszajn, N. “Theory of reproducing kernels.” Trans. Amer. Math. Soc. 68 (1950), 337-404.</a></p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subspaces</strong> (list of <a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></a> objects) – The subspace <a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></a> objects, listed in the order that their indices will appear along the first axis.</p></li>
+<li><p><strong>copy_X</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">True</span></code>, input <code class="docutils literal notranslate"><span class="pre">X</span></code> is copied and stored by the model in the <code class="docutils literal notranslate"><span class="pre">X_fit_</span></code> attribute. If no further changes will be done to <code class="docutils literal notranslate"><span class="pre">X</span></code>, setting <code class="docutils literal notranslate"><span class="pre">copy_X=False</span></code> saves memory by storing a reference.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape_in_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The required shape of the input datapoints, aka the shape of the domain space <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+<li><p><strong>shape_out_</strong> (<code class="docutils literal notranslate"><span class="pre">tuple</span></code>) – The final shape of the transformed datapoints, aka the shape of the Hilbert space <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
+<li><p><strong>X_fit_</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <cite>(n_samples,)+self.shape_in_</cite>) – The data which was used to fit the model.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.DirectSumRKHS.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#DirectSumRKHS.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.DirectSumRKHS.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model from data in <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Training vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. Must be consistent with preprocessing instructions in <cite>sub.take</cite> and <cite>sub.filter</cite> for each <cite>sub</cite> in <cite>self.subspaces</cite>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance itself</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">RKHS</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.DirectSumRKHS.kernel">
+<span class="sig-name descname"><span class="pre">kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#DirectSumRKHS.kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.DirectSumRKHS.kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the kernel on <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">Y</span></code> (or <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">X</span></code>) by summing the kernels of the factors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>.</p></li>
+<li><p><strong>Y</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">X</span></code> is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The matrix <code class="docutils literal notranslate"><span class="pre">K[i,j]</span> <span class="pre">=</span> <span class="pre">k(X[i],Y[j])</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples_1,n_samples_2)</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ruckus.base.DirectSumRKHS.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/base.html#DirectSumRKHS.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.base.DirectSumRKHS.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features_1,...,n_features_d)</span></code>) – Data vector, where <code class="docutils literal notranslate"><span class="pre">n_samples</span></code> is the number of samples and <code class="docutils literal notranslate"><span class="pre">(n_features_1,...,n_features_d)</span></code> is the shape of the input data. These must match <code class="docutils literal notranslate"><span class="pre">self.shape_in_</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The transformed data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of shape <code class="docutils literal notranslate"><span class="pre">(n_samples,)+self.shape_out_</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="ProductRKHS.html">ruckus.base.ProductRKHS class</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="../../index.html">Contents</a>
+        &#160;&#160;::&#160;&#160;
+        <a href="../embedding.html">ruckus.embedding module</a>&#160;&#160;»
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Samuel Loomis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+  </body>
+</html>

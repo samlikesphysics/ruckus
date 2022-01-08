@@ -1,0 +1,7 @@
+ruckus.embedding.OneHotRKHS class
+=================================
+
+.. autoclass:: ruckus.embedding.OneHotRKHS
+    :members:
+    :undoc-members:
+    :show-inheritance:
