@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ruckus.base &#8212; ruckus 0.0.4 documentation</title>
+    <title>ruckus.base &#8212; ruckus 0.0.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>ruckus 0.0.4 documentation</span></a></h1>
+          <span>ruckus 0.0.5 documentation</span></a></h1>
         <h2 class="heading"><span>ruckus.base</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -216,7 +216,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs the :py:class:`CompositeRKHS` from ``self`` and ``other``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">CompositeRKHS</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">],</span><span class="n">copy_X</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">copy_X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CompositeRKHS</span><span class="p">([</span><span class="n">other</span><span class="p">,</span><span class="bp">self</span><span class="p">],</span><span class="n">copy_X</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">copy_X</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -402,9 +402,9 @@
 <span class="sd">        Constructs the ``CompositeRKHS`` from ``self` and `other``. Flattens the component list to avoid unnecessary recursion.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">CompositeRKHS</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">CompositeRKHS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">components</span><span class="p">,</span><span class="n">copy_X</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">copy_X</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CompositeRKHS</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">components</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">,</span><span class="n">copy_X</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">copy_X</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">CompositeRKHS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">other</span><span class="p">),</span><span class="n">copy_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="n">CompositeRKHS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">other</span><span class="p">),</span><span class="n">copy_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ProductRKHS"><a class="viewcode-back" href="../../api/base/ProductRKHS.html#ruckus.base.ProductRKHS">[docs]</a><span class="k">class</span> <span class="nc">ProductRKHS</span><span class="p">(</span><span class="n">RKHS</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
