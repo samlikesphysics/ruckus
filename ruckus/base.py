@@ -239,7 +239,7 @@ class CompositeRKHS(RKHS):
     by implementing ``transform`` sequentially for each of the component spaces.
     This is useful for building pipelines and deep kernels.
 
-    1. `Cho, Y., Lawrence, S. "Kernel Methods for Deep Learning." Advances in Neural Information Processing Systems 22 (NIPS 2009) <https://papers.nips.cc/paper/2009/hash/5751ec3e9a4feab575962e78e006250d-Abstract.html/>`_
+    1. `Cho, Y., Lawrence, S. "Kernel Methods for Deep Learning." Advances in Neural Information Processing Systems 22 (NIPS 2009) <https://papers.nips.cc/paper/2009/hash/5751ec3e9a4feab575962e78e006250d-Abstract.html>`_
 
     ==========
     Parameters

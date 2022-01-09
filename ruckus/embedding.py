@@ -28,7 +28,7 @@ class EigenRKHS(_KernelPCA,_RKHS):
     which selects a smaller subset of the data to use for the eigenvector computation, and then uses those
     eigenvectors to transform the remaining data [1].
 
-    1. `Williams, C., Seeger, M. "Using the Nyström Method to Speed Up Kernel Machines." Advances in Neural Information Processing Systems 13 (NIPS 2000) <https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13f77f679fa1483a-Abstract.html/>`_
+    1. `Williams, C., Seeger, M. "Using the Nyström Method to Speed Up Kernel Machines." Advances in Neural Information Processing Systems 13 (NIPS 2000) <https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13f77f679fa1483a-Abstract.html>`_
     
     ==========
     Parameters
@@ -318,7 +318,7 @@ class RandomFourierRBF(_RKHS):
     we use quasi-Monte Carlo sampling via :py:func:`scipy.stats.qmc.QMCEngine`, which converges :math:`O((\log n)^d n^{-1})`
     where :math:`d` corresponds to the number of features in :math:`X`.
 
-    1. `Rahimi, A., Recht, B. "Random Features for Large-Scale Kernel Machines." Advances in Neural Information Processing Systems 20 (NIPS 2007) <https://papers.nips.cc/paper/2007/hash/013a006f03dbc5392effeb8f18fda755-Abstract.html/>`_
+    1. `Rahimi, A., Recht, B. "Random Features for Large-Scale Kernel Machines." Advances in Neural Information Processing Systems 20 (NIPS 2007) <https://papers.nips.cc/paper/2007/hash/013a006f03dbc5392effeb8f18fda755-Abstract.html>`_
     
     ==========
     Parameters
