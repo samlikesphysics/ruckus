@@ -184,7 +184,7 @@ class RKHS(_TransformerMixin,_BaseEstimator):
         """
         Constructs the :py:class:`CompositeRKHS` from ``self`` and ``other``.
         """
-        return CompositeRKHS([self,other],copy_X = other.copy_X)
+        return CompositeRKHS([other,self],copy_X = other.copy_X)
 
     def __mul__(self,other):
         """
@@ -370,9 +370,9 @@ class CompositeRKHS(RKHS):
         Constructs the ``CompositeRKHS`` from ``self` and `other``. Flattens the component list to avoid unnecessary recursion.
         """
         if type(other) is CompositeRKHS:
-            return CompositeRKHS(self.components+other.components,copy_X = other.copy_X)
+            return CompositeRKHS(other.components+self.components,copy_X = other.copy_X)
         else:
-            return CompositeRKHS(self.components.append(other),copy_X = self.copy_X)
+            return CompositeRKHS(self.components.insert(0,other),copy_X = self.copy_X)
 
 class ProductRKHS(RKHS):
     r"""
