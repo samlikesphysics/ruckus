@@ -474,6 +474,13 @@ class OneHotRKHS(_RKHS):
     Parameters
     ==========
 
+    :param axis: Default = ``None``.
+        Specifies the axis or axes along which unique entries will be determined. 
+        The alphabet will be taken as the unique subarrays indexed by the given axes,
+        and the transformed vector will have the shape of the given axes + an additional
+        axis indexing the alphabet. If ``None``, defaults to all axes. The 0 axis (that is,
+        the sample axis) will always be included, even if not given.
+    :type axis: int or tuple of ints
     :param take: Default = ``None``.
         Specifies which values to take from the datapoint for transformation.
         If ``None``, the entire datapoint will be taken in its original shape.
@@ -500,12 +507,14 @@ class OneHotRKHS(_RKHS):
     """
     def __init__(
         self,
+        axis=None,
         *,
         take=None,
         copy_X=True,
     ):
         self.take=take
         self.copy_X = copy_X
+        self.axis = axis
 
     def fit(self,X,y=None):
         """
@@ -522,10 +531,31 @@ class OneHotRKHS(_RKHS):
         """
         if self.copy_X:
             X = X.copy()
-        self.X_fit_ = self._apply_take(X)
-        self.alphabet_ = _np.unique(self.X_fit_)
-        self.shape_in_ = ()
-        self.shape_out_ = (len(self.alphabet_),)
+        self.X_fit_ = X
+        self.shape_in_ = self.X_fit_.shape[1:]
+        X = self._apply_take(X)
+
+        if self.axis is None:
+            self.alphabet_ = _np.unique(self.X_fit_)
+            self.shape_out_ = self.shape_in_+(len(self.alphabet_),)
+        elif self.axis == 0:
+            self.alphabet_ = _np.unique(self.X_fit_,axis=0)
+            self.shape_out_ = (self.alphabet_.shape[0],)
+        else:
+            self.axis = tuple(self.axis)
+            if not(0 in self.axis):
+                self.axis = (0,)+self.axis
+            flatten_dim = len(self.axis)
+            X_moved = _np.moveaxis(
+                self.X_fit_,self.axis,
+                tuple(range(flatten_dim))
+            )
+            self.alphabet_ = _np.unique(
+                X_moved.reshape((_np.prod(X_moved.shape[:flatten_dim],dtype=int),)
+                                +X_moved.shape[flatten_dim:]),
+                axis=0
+            )
+            self.shape_out_ = X_moved.shape[1:]+(self.alphabet_.shape[0],)
         return self
     
     def transform(self,X):
@@ -539,23 +569,24 @@ class OneHotRKHS(_RKHS):
         :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``
         """
         X = self._apply_take(X)
-        return (X[...,None] == self.alphabet_.reshape((1,)*X.ndim+self.shape_out_)).astype(float)
-    
-    def kernel(self,X,Y=None):
-        """
-        Applies ``self.take`` and ``self.filter`` to data, then
-        calls :py:func:`_get_kernel` for kernel evaluation.
 
-        :param X: Data vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the number of features. Must be consistent with preprocessing instructions in ``self.take``.
-        :type X: :py:class:`numpy.ndarray` of shape ``(n_samples, n_features_1,...,n_features_d)``   
+        if self.axis is None:
+            X_transformed = (X[...,None] == self.alphabet_.reshape((1,)*X.ndim+self.alphabet_.shape)).astype(float)
+        elif self.axis == 0:
+            X_transformed = _np.all(X[:,None] == self.alphabet_[None],axis=tuple(range(2,X.ndim+1))).astype(float)
+        else:
+            flatten_dim = len(self.axis)
+            X_moved = _np.moveaxis(
+                X,self.axis,
+                tuple(range(flatten_dim))
+            )
+            X_transformed = _np.all(
+                X_moved.reshape(X_moved.shape[:flatten_dim]+(1,)+X_moved.shape[flatten_dim:]) == self.alphabet_.reshape((1,)*flatten_dim+self.alphabet_.shape),
+                axis=tuple(range(flatten_dim+1,X_moved.ndim+1))
+            ).astype(float)
 
-        :param Y: Default = ``None``.
-            Data vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the shape of the input data. Must be consistent with preprocessing instructions in ``self.take``. If ``None``, ``X`` is used.
-        :type Y: :py:class:`numpy.ndarray` of shape ``(n_samples, n_features_1,...,n_features_d)``   
-
-        :returns: The matrix ``K[i,j] = k(X[i],Y[j])`` 
-        :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples_1,n_samples_2)``
-        """
-        if Y is None:
-            Y = X
-        return X.reshape(X.shape+(1,)*Y.ndim) == Y.reshape((1,)*X.ndim+Y.shape)
+        X_squeezed = _np.squeeze(X_transformed)
+        if X_squeezed.ndim >1:
+            return X_squeezed
+        else:
+            return X_squeezed[:,None]

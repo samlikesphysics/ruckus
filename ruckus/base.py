@@ -144,7 +144,7 @@ class RKHS(_TransformerMixin,_BaseEstimator):
             Y = X
         else:
             Y = self._validate_data(Y, accept_sparse="csr", copy=self.copy_X,allow_nd=True,ensure_2d=False)
-        return self.transform(X)@(self.transform(Y).T)
+        return _np.tensordot(self.transform(X),self.transform(Y),axes=[tuple(range(1,len(self.shape_out_)+1))]*2)
 
     def fit_function(self,y,X=None,regressor=None,alpha=1):
         """
