@@ -506,6 +506,13 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ==========</span>
 
+<span class="sd">    :param axis: Default = ``None``.</span>
+<span class="sd">        Specifies the axis or axes along which unique entries will be determined. </span>
+<span class="sd">        The alphabet will be taken as the unique subarrays indexed by the given axes,</span>
+<span class="sd">        and the transformed vector will have the shape of the given axes + an additional</span>
+<span class="sd">        axis indexing the alphabet. If ``None``, defaults to all axes. The 0 axis (that is,</span>
+<span class="sd">        the sample axis) will always be included, even if not given.</span>
+<span class="sd">    :type axis: int or tuple of ints</span>
 <span class="sd">    :param take: Default = ``None``.</span>
 <span class="sd">        Specifies which values to take from the datapoint for transformation.</span>
 <span class="sd">        If ``None``, the entire datapoint will be taken in its original shape.</span>
@@ -532,12 +539,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">take</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">copy_X</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">take</span><span class="o">=</span><span class="n">take</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span> <span class="o">=</span> <span class="n">copy_X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
 
 <div class="viewcode-block" id="OneHotRKHS.fit"><a class="viewcode-back" href="../../api/embedding/OneHotRKHS.html#ruckus.embedding.OneHotRKHS.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -554,10 +563,31 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_X</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_take</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="p">),)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_take</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span><span class="o">+</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="p">),)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="mi">0</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span>
+            <span class="n">flatten_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+            <span class="n">X_moved</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span>
+                <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">flatten_dim</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+                <span class="n">X_moved</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">_np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">X_moved</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">flatten_dim</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),)</span>
+                                <span class="o">+</span><span class="n">X_moved</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">flatten_dim</span><span class="p">:]),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="n">X_moved</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">+</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
     
 <div class="viewcode-block" id="OneHotRKHS.transform"><a class="viewcode-back" href="../../api/embedding/OneHotRKHS.html#ruckus.embedding.OneHotRKHS.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">):</span>
@@ -571,26 +601,27 @@
 <span class="sd">        :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples,)+self.shape_out_``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_take</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,)</span><span class="o">*</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span></div>
-    
-<div class="viewcode-block" id="OneHotRKHS.kernel"><a class="viewcode-back" href="../../api/embedding/OneHotRKHS.html#ruckus.embedding.OneHotRKHS.kernel">[docs]</a>    <span class="k">def</span> <span class="nf">kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Applies ``self.take`` and ``self.filter`` to data, then</span>
-<span class="sd">        calls :py:func:`_get_kernel` for kernel evaluation.</span>
 
-<span class="sd">        :param X: Data vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the number of features. Must be consistent with preprocessing instructions in ``self.take``.</span>
-<span class="sd">        :type X: :py:class:`numpy.ndarray` of shape ``(n_samples, n_features_1,...,n_features_d)``   </span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">X_transformed</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,)</span><span class="o">*</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">X_transformed</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flatten_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+            <span class="n">X_moved</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span>
+                <span class="n">X</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span>
+                <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">flatten_dim</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="n">X_transformed</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+                <span class="n">X_moved</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_moved</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">flatten_dim</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span><span class="o">+</span><span class="n">X_moved</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">flatten_dim</span><span class="p">:])</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,)</span><span class="o">*</span><span class="n">flatten_dim</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">flatten_dim</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">X_moved</span><span class="o">.</span><span class="n">ndim</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 
-<span class="sd">        :param Y: Default = ``None``.</span>
-<span class="sd">            Data vector, where ``n_samples`` is the number of samples and ``(n_features_1,...,n_features_d)`` is the shape of the input data. Must be consistent with preprocessing instructions in ``self.take``. If ``None``, ``X`` is used.</span>
-<span class="sd">        :type Y: :py:class:`numpy.ndarray` of shape ``(n_samples, n_features_1,...,n_features_d)``   </span>
-
-<span class="sd">        :returns: The matrix ``K[i,j] = k(X[i],Y[j])`` </span>
-<span class="sd">        :rtype: :py:class:`numpy.ndarray` of shape ``(n_samples_1,n_samples_2)``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">Y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">Y</span> <span class="o">=</span> <span class="n">X</span>
-        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="p">,)</span><span class="o">*</span><span class="n">Y</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span> <span class="o">==</span> <span class="n">Y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,)</span><span class="o">*</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">+</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div></div>
+        <span class="n">X_squeezed</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">X_transformed</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X_squeezed</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">X_squeezed</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">X_squeezed</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span></div></div>
 </pre></div>
 
       </div>
