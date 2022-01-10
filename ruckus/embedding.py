@@ -474,11 +474,11 @@ class OneHotRKHS(_RKHS):
     Parameters
     ==========
 
-    :param axis: Default = ``None``.
+    :param axis: Default = 0.
         Specifies the axis or axes along which unique entries will be determined. 
         The alphabet will be taken as the unique subarrays indexed by the given axes,
         and the transformed vector will have the shape of the given axes + an additional
-        axis indexing the alphabet. If ``None``, defaults to all axes. The 0 axis (that is,
+        axis indexing the alphabet. The 0 axis (that is,
         the sample axis) will always be included, even if not given.
     :type axis: int or tuple of ints
     :param take: Default = ``None``.
@@ -507,7 +507,7 @@ class OneHotRKHS(_RKHS):
     """
     def __init__(
         self,
-        axis=None,
+        axis=0,
         *,
         take=None,
         copy_X=True,
@@ -535,11 +535,8 @@ class OneHotRKHS(_RKHS):
         self.shape_in_ = self.X_fit_.shape[1:]
         X = self._apply_take(X)
 
-        if self.axis is None:
-            self.alphabet_ = _np.unique(self.X_fit_)
-            self.shape_out_ = self.shape_in_+(len(self.alphabet_),)
-        elif self.axis == 0:
-            self.alphabet_ = _np.unique(self.X_fit_,axis=0)
+        if self.axis == 0:
+            self.alphabet_ = _np.unique(X,axis=0)
             self.shape_out_ = (self.alphabet_.shape[0],)
         else:
             self.axis = tuple(self.axis)
@@ -547,7 +544,7 @@ class OneHotRKHS(_RKHS):
                 self.axis = (0,)+self.axis
             flatten_dim = len(self.axis)
             X_moved = _np.moveaxis(
-                self.X_fit_,self.axis,
+                X,self.axis,
                 tuple(range(flatten_dim))
             )
             self.alphabet_ = _np.unique(
@@ -570,9 +567,7 @@ class OneHotRKHS(_RKHS):
         """
         X = self._apply_take(X)
 
-        if self.axis is None:
-            X_transformed = (X[...,None] == self.alphabet_.reshape((1,)*X.ndim+self.alphabet_.shape)).astype(float)
-        elif self.axis == 0:
+        if self.axis == 0:
             X_transformed = _np.all(X[:,None] == self.alphabet_[None],axis=tuple(range(2,X.ndim+1))).astype(float)
         else:
             flatten_dim = len(self.axis)
