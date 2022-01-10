@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ruckus.embedding &#8212; ruckus 0.0.5 documentation</title>
+    <title>ruckus.embedding &#8212; ruckus 0.0.8-alpha documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="search" title="Search" href="../../search.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>ruckus 0.0.5 documentation</span></a></h1>
+          <span>ruckus 0.0.8-alpha documentation</span></a></h1>
         <h2 class="heading"><span>ruckus.embedding</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -506,11 +506,11 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ==========</span>
 
-<span class="sd">    :param axis: Default = ``None``.</span>
+<span class="sd">    :param axis: Default = 0.</span>
 <span class="sd">        Specifies the axis or axes along which unique entries will be determined. </span>
 <span class="sd">        The alphabet will be taken as the unique subarrays indexed by the given axes,</span>
 <span class="sd">        and the transformed vector will have the shape of the given axes + an additional</span>
-<span class="sd">        axis indexing the alphabet. If ``None``, defaults to all axes. The 0 axis (that is,</span>
+<span class="sd">        axis indexing the alphabet. The 0 axis (that is,</span>
 <span class="sd">        the sample axis) will always be included, even if not given.</span>
 <span class="sd">    :type axis: int or tuple of ints</span>
 <span class="sd">    :param take: Default = ``None``.</span>
@@ -539,7 +539,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">take</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">copy_X</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -567,11 +567,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_take</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_in_</span><span class="o">+</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="p">),)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shape_out_</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
@@ -579,7 +576,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span>
             <span class="n">flatten_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
             <span class="n">X_moved</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">X_fit_</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span>
+                <span class="n">X</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span>
                 <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">flatten_dim</span><span class="p">))</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
@@ -602,9 +599,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_take</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">X_transformed</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,)</span><span class="o">*</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">X_transformed</span> <span class="o">=</span> <span class="n">_np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">X</span><span class="o">.</span><span class="n">ndim</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">flatten_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
