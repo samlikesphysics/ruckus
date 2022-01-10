@@ -5,11 +5,11 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='ruckus',
-    version='0.0.5',
+    version='0.0.6',
     author='Samuel Loomis',
     author_email='sloomis@ucdavis.edu',
     packages=['ruckus'],
-    description='Transformer classes for RKHS pipelines',
+    description='RKHS networks with python and scikit-learn',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
