@@ -10,4 +10,4 @@ import ruckus.scoring as scoring
 import ruckus.cv_wrappers as cv_wrappers
 import ruckus.convolution as convolution
 
-__version__ = '0.0.7'
+__version__ = '0.0.8'
