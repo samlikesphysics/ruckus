@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>ruckus.embedding.OneHotRKHS class &#8212; ruckus 0.0.6 documentation</title>
+    <title>ruckus.embedding.OneHotRKHS class &#8212; ruckus 0.0.8-alpha documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/haiku.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -20,7 +20,7 @@
     <link rel="prev" title="ruckus.embedding.RandomFourierRBF class" href="RandomFourierRBF.html" /> 
   </head><body>
       <div class="header" role="banner"><h1 class="heading"><a href="../../index.html">
-          <span>ruckus 0.0.6 documentation</span></a></h1>
+          <span>ruckus 0.0.8-alpha documentation</span></a></h1>
         <h2 class="heading"><span>ruckus.embedding.OneHotRKHS class</span></h2>
       </div>
       <div class="topnav" role="navigation" aria-label="top navigation">
@@ -41,7 +41,7 @@
 <h1>ruckus.embedding.OneHotRKHS class<a class="headerlink" href="#ruckus-embedding-onehotrkhs-class" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ruckus.embedding.OneHotRKHS">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ruckus.embedding.</span></span><span class="sig-name descname"><span class="pre">OneHotRKHS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#OneHotRKHS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.OneHotRKHS" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ruckus.embedding.</span></span><span class="sig-name descname"><span class="pre">OneHotRKHS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">take</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/ruckus/embedding.html#OneHotRKHS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ruckus.embedding.OneHotRKHS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../base/RKHS.html#ruckus.base.RKHS" title="ruckus.base.RKHS"><code class="xref py py-class docutils literal notranslate"><span class="pre">ruckus.base.RKHS</span></code></a></p>
 <p><code class="docutils literal notranslate"><span class="pre">OneHotRKHS</span></code> is for processing categorical data.
 If <span class="math notranslate nohighlight">\(X\)</span> is a discrete set, this generates an embedding map <span class="math notranslate nohighlight">\(\phi:X\rightarrow H\)</span> 
@@ -53,11 +53,11 @@ the embedded distribution vector is itself a probability vector (positive compon
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em> or </em><em>tuple of ints</em>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+<li><p><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em> or </em><em>tuple of ints</em>) – Default = 0.
 Specifies the axis or axes along which unique entries will be determined. 
 The alphabet will be taken as the unique subarrays indexed by the given axes,
 and the transformed vector will have the shape of the given axes + an additional
-axis indexing the alphabet. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to all axes. The 0 axis (that is,
+axis indexing the alphabet. The 0 axis (that is,
 the sample axis) will always be included, even if not given.</p></li>
 <li><p><strong>take</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> of <code class="docutils literal notranslate"><span class="pre">dtype</span> <span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">bool</span></code>, or <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> instances of type <code class="docutils literal notranslate"><span class="pre">int</span></code>, or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – Default = <code class="docutils literal notranslate"><span class="pre">None</span></code>.
 Specifies which values to take from the datapoint for transformation.
